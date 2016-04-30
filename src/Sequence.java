@@ -22,13 +22,14 @@ public class Sequence {
         return content.length();
     }
     
-    public boolean simpleValidate(){
+    public boolean simpleValidate() throws InvalidSequenceException{
         for(int i = 0; i < getLength(); i++){
             if(content.charAt(i)!= 'A')
                if(content.charAt(i) != 'C')
                    if(content.charAt(i) != 'T')
                        if(content.charAt(i) != 'G'){
-                           return false;
+                           throw new InvalidSequenceException(content,i);
+                          // return false;
                        }
                 
                

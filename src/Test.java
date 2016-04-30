@@ -10,13 +10,21 @@
  */
 public class Test {
     public static void main(String[]args){
-        Sequence sq1 = new Sequence("test","ATGCATCAAAGGG");
-
-
+        String test = "ATGCATYCAAAGGG";
+        Sequence sq1 = new Sequence("test","ATGCATYCAAAGGG");
+        try{
         System.out.println(sq1.getContent());
         System.out.println(sq1.getLength());
         System.out.println(sq1.simpleValidate());
         
+        
+            
+        }
+        catch(InvalidSequenceException error){
+            System.out.println(error);
+        }
+
+
         
         
 
