@@ -1,9 +1,9 @@
 import java.util.*;
 
-public class Sequence {
+public abstract class Sequence {
     private String description = "";
     private String content = "";
-    private ArrayList<String>validLetters;
+    
  
     
     Sequence(String description, String content){
@@ -29,8 +29,7 @@ public class Sequence {
     public int getLength(){
         return content.length();
     }
-    
-    
+        
     public void validate(Collection<String>validLetters) throws InvalidSequenceException {
         ArrayList<String>contentList = new ArrayList<>();
         
@@ -49,18 +48,13 @@ public class Sequence {
                 throw new InvalidSequenceException(content,i);
             }                
         }  
-         System.out.println(content);
+
     }
     
-    public Collection validLetters(){
-        validLetters = new ArrayList<String>();
-        
-        validLetters.add("A");
-        validLetters.add("C");
-        validLetters.add("T");
-        validLetters.add("G");
-        
-        return validLetters;       
+    public abstract Collection validLetters();
+    
+    public String toString(){
+        return ">"+description+"\n"+content; 
     }
     
 }
