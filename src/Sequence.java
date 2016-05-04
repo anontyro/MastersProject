@@ -1,13 +1,21 @@
-
+import java.util.*;
 
 public class Sequence {
     private String description = "";
     private String content = "";
-    private int sequenceLength = 0;
+    private ArrayList<String>validLetters;
+ 
     
     Sequence(String description, String content){
         this.description = description;
         this.content = content;
+        try{
+        validate(validLetters());
+        }
+        catch (InvalidSequenceException error){
+            System.out.println(error);
+            System.exit(1);
+        }
     }
     
     public String getDescription(){
@@ -22,44 +30,37 @@ public class Sequence {
         return content.length();
     }
     
-    public boolean simpleValidate() throws InvalidSequenceException{
-        for(int i = 0; i < getLength(); i++){
-            if(content.charAt(i)!= 'A')
-               if(content.charAt(i) != 'C')
-                   if(content.charAt(i) != 'T')
-                       if(content.charAt(i) != 'G'){
-                           throw new InvalidSequenceException(content,i);
-                          // return false;
-                       }
-                
-               
-            
+    
+    public void validate(Collection<String>validLetters) throws InvalidSequenceException {
+        ArrayList<String>contentList = new ArrayList<>();
+        
+        for(int i = 0 ; i < getLength() ; i++){
+            contentList.add(content.substring(i, i+1));           
         }
-        return true;
+        
+        Iterator<String> iterateValid = contentList.iterator();
+        int index = 0;
+        
+        for(int i = 0; i < contentList.size(); i++){
+            if(validLetters.contains(iterateValid.next())){
+                index++;
+            }
+            else{
+                throw new InvalidSequenceException(content,i);
+            }                
+        }  
+         System.out.println(content);
     }
     
-    public boolean validate() throws InvalidSequenceException{
-        int index = 0;
-        try{
-            
-        for(int i = 0; i < getLength(); i++){
-            if (content.charAt(i) != ('A' | 'T' | 'G' | 'C')){
-                i = index;
-                throw (new InvalidSequenceException(content,i));
-                
-                
-            }
-            }
-        }
-        catch(InvalidSequenceException error){
-            throw (new InvalidSequenceException(content,index));
-        }
-            
+    public Collection validLetters(){
+        validLetters = new ArrayList<String>();
         
+        validLetters.add("A");
+        validLetters.add("C");
+        validLetters.add("T");
+        validLetters.add("G");
         
-        
-        return true;
-        
-        
+        return validLetters;       
     }
+    
 }
