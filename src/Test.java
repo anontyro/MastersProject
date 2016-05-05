@@ -1,20 +1,28 @@
 
 import java.util.*;
+import java.io.*;
 
 public class Test {
     public static void main(String[]args){
         
-        DNASequence sq2 = new DNASequence("test","ATGCACAAAGGG");
-        ProteinSequence sq1 = new ProteinSequence("Lactate", "SNDVVIRSSPVICYH");
+        DNASequence sq1 = new DNASequence(">test","ATGCACAAAGGG");
+        ProteinSequence sq2 = new ProteinSequence("Lactate", "SNDVVIRSSPVICYH");
 
         System.out.println(sq1.getContent());
         System.out.println(sq1.validLetters());
         System.out.println(sq1.getLength());
+        System.out.println(sq1.toString());
         //System.out.println(sq1.revComp());
         
-        System.out.println(sq1.getFullName("P"));
-        
-        
+        //System.out.println(sq1.getFullName("P"));
+        try{
+         sq1.writeToFile("test.txt");
+         
+         
+        }
+        catch (IOException error) {
+            System.err.println(error.getMessage());
+        }
         /*String seq = "ATGATGATGCTTTTC";
         String flipReverse = "";
         char[]reverse = seq.toCharArray();

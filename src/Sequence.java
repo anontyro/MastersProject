@@ -1,4 +1,5 @@
 import java.util.*;
+import java.io.*;
 
 public abstract class Sequence {
     private String description = "";
@@ -54,7 +55,29 @@ public abstract class Sequence {
     public abstract Collection validLetters();
     
     public String toString(){
-        return ">"+description+"\n"+content; 
+        return description+"\n"+content; 
     }
+    
+    public void writeToFile(String filename) throws IOException{
+        PrintWriter out = null;
+        try{
+            File outFile = new File(filename);
+            
+            FileWriter fout = new FileWriter(outFile);
+            BufferedWriter bout = new BufferedWriter(fout);
+            out = new PrintWriter(bout);
+            
+            out.println(description);
+            out.println(content);
+            out.close();
+        }
+        catch(IOException error){
+            System.err.println(error.getMessage());
+        }
+        finally{
+            if(out !=null){out.close();}
+        }
+    }
+    
     
 }
