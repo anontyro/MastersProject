@@ -14,7 +14,7 @@ public abstract class Sequence {
         validate(validLetters());
         }
         catch (InvalidSequenceException error){
-            System.out.println(error);
+            System.err.println(error);
             System.exit(1);
         }
     }
@@ -60,7 +60,18 @@ public abstract class Sequence {
     
     public void writeToFile(String filename) throws IOException{
         PrintWriter out = null;
+        
         try{
+            
+            String outDescription ="";
+            String[]outDescrip = (toString().split("\n"));
+            /*
+            for(int i = 0; i < outDescrip.length;i++){
+            outDescription += outDescrip[i];
+                       
+        }*/
+            outDescription = outDescrip[0] + " \n " + outDescrip[1];
+            
             File outFile = new File(filename);
             
             FileWriter fout = new FileWriter(outFile);
@@ -69,6 +80,7 @@ public abstract class Sequence {
             
             out.println(description);
             out.println(content);
+            out.println(outDescription);
             out.close();
         }
         catch(IOException error){
@@ -77,6 +89,39 @@ public abstract class Sequence {
         finally{
             if(out !=null){out.close();}
         }
+    }
+    
+    public String getDescription(String filename) throws IOException{
+        File inFile = new File(filename);
+        BufferedReader bin = null;
+        String descOutput = "";
+        
+        try{
+            FileReader fin = new FileReader(inFile);
+            bin = new BufferedReader(fin);
+            
+            String line = bin.readLine();
+            while(line != null){
+                descOutput += line;
+                line = bin.readLine();
+            }
+        }
+        catch(IOException e){
+            System.err.println(e.getMessage());
+        }
+        finally{
+            if(bin !=null) {bin.close();}
+        }
+        
+        
+        return descOutput;
+    }
+    public String getContent(String filename){
+        String contentOut = "";
+        
+        
+        
+        return contentOut;
     }
     
     

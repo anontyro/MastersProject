@@ -16,7 +16,8 @@ public class Test {
         
         //System.out.println(sq1.getFullName("P"));
         try{
-         sq1.writeToFile("test.txt");
+         //sq1.writeToFile("test.txt");
+        sq1.getDescription("test.txt");
          
          
         }
