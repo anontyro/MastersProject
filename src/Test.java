@@ -5,6 +5,32 @@ import java.io.*;
 public class Test {
     public static void main(String[]args){
         
+      /*  String testSq = ">Rhino DNA \n "
+                + "ATCGAAATAACGGTAGGGG";
+        
+        String outName = "";
+        String outContent ="";
+        
+        System.out.println(testSq);
+        
+        String[] textSplit = testSq.split("\n");
+        
+        for(int i = 0; i< textSplit.length;i++){
+            if(textSplit[i].startsWith(">")){
+                outName+= textSplit[i];
+            }
+            else
+                outContent+= textSplit[i];
+        }
+        
+        System.out.println(outName);
+        System.out.println("Break");
+        System.out.println(outContent);
+        
+        */
+        
+        
+        
         DNASequence sq1 = new DNASequence(">test","ATGCACAAAGGG");
         ProteinSequence sq2 = new ProteinSequence("Lactate", "SNDVVIRSSPVICYH");
 
@@ -17,14 +43,19 @@ public class Test {
         //System.out.println(sq1.getFullName("P"));
         try{
          //sq1.writeToFile("test.txt");
-        sq1.getDescription("test.txt");
+        
+         System.out.println(sq1.getDescription("test.txt"));
+         System.out.println();
+         System.out.println(sq1.getContent("test.txt"));
          
          
         }
         catch (IOException error) {
             System.err.println(error.getMessage());
         }
-        /*String seq = "ATGATGATGCTTTTC";
+        
+        /*
+        String seq = "ATGATGATGCTTTTC";
         String flipReverse = "";
         char[]reverse = seq.toCharArray();
         System.out.println(reverse.length);

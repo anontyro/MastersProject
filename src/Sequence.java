@@ -95,16 +95,30 @@ public abstract class Sequence {
         File inFile = new File(filename);
         BufferedReader bin = null;
         String descOutput = "";
+        String output = "";
+        String body = "";
         
         try{
             FileReader fin = new FileReader(inFile);
             bin = new BufferedReader(fin);
             
             String line = bin.readLine();
-            while(line != null){
-                descOutput += line;
-                line = bin.readLine();
+            while(line != null){    
+            descOutput += line + "\n";
+            line = bin.readLine();
             }
+            
+            String[]textSplit = descOutput.split("\n");
+            
+            for(int i = 0; i < textSplit.length;i++){
+                if(textSplit[i].startsWith(">")){
+                    output += textSplit[i];
+                }
+                else
+                     body += textSplit[i];
+            }
+            output.trim();
+                
         }
         catch(IOException e){
             System.err.println(e.getMessage());
@@ -114,15 +128,48 @@ public abstract class Sequence {
         }
         
         
-        return descOutput;
-    }
-    public String getContent(String filename){
-        String contentOut = "";
-        
-        
-        
-        return contentOut;
+        return output;
     }
     
+    public String getContent(String filename) throws IOException{
+        File inFile = new File(filename);
+        BufferedReader bin = null;
+        String descOutput = "";
+        String output = "";
+        String body = "";
+        
+        try{
+            FileReader fin = new FileReader(inFile);
+            bin = new BufferedReader(fin);
+            
+            String line = bin.readLine();
+            while(line != null){    
+            descOutput += line + "\n";
+            line = bin.readLine();
+            }
+            
+            String[]textSplit = descOutput.split("\n");
+            
+            for(int i = 0; i < textSplit.length;i++){
+                if(textSplit[i].startsWith(">")){
+                    output += textSplit[i];
+                }
+                else
+                     body += textSplit[i];
+            }
+            output.trim();
+            body.trim();
+                
+        }
+        catch(IOException e){
+            System.err.println(e.getMessage());
+        }
+        finally{
+            if(bin !=null) {bin.close();}
+        }
+        
+        
+        return body;
+    }    
     
 }
