@@ -11,6 +11,7 @@ public class DNASequence extends Sequence {
     public DNASequence(String description,String content){
         super(description,content);
         this.content = content;
+        this.content.toUpperCase();
         this.description = description;
     }
     

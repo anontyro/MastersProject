@@ -7,14 +7,18 @@ public class ProteinSequence extends Sequence {
     }
     
     public Collection validLetters(){
-        return convertString();
+        return convertString("GALMFWKSNDPVICYHRTQE");
     }
     
-    private Collection convertString(){
+    /**
+     *
+     * @return
+     */
+    protected Collection convertString(String convertString){
         ArrayList<String>validProtein = new ArrayList<>();
-        String validpro = "GALMFWKSNDPVICYHRTQE";
-        for(int i=0;i< validpro.length();i++){
-            validProtein.add(validpro.substring(i, i+1));
+        //String validpro = "GALMFWKSNDPVICYHRTQE";
+        for(int i=0;i< convertString.length();i++){
+            validProtein.add(convertString.substring(i, i+1));
         }
         return validProtein;
     }
