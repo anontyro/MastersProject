@@ -1,21 +1,14 @@
 import java.util.*;
 
-public class Ribosome extends ProteinSequence {
+public class Ribosome {
     
     private String description = "";
     private String content = "";
     private Map<String,String>translationTable = translationTable();
     
-    Ribosome(String description, String content){
-        super(description,content);
-        this.description = description;
-        this.content = content;
+    Ribosome(){
     }
     
-    public Collection validLetters(){
-        
-        return convertString("GALMFWKSNDPVICYHRTQE");
-    }
     
     
     public static Map translationTable(){
@@ -42,23 +35,55 @@ public class Ribosome extends ProteinSequence {
      
     }
     
-    public String[] translateDNA(DNASequence newDNA){
+    public Collection translateDNA(DNASequence newDNA){
         String[]output = new String[10];
-        String dnaIn = newDNA.toString();
+        String dnaIn = newDNA.getContent();
        
         
         ArrayList<String>outputFrame = new ArrayList<>();
 
-        for(int x = 0; x<dnaIn.length();x = x+3){
-            dnaIn.substring(x, x+2);
+       
+            
            
         //add Iterator to check that the sequence is found in the translationTable    
                 
-        }
-        
+      //  String[]frameOne = (String[]) frame(dnaIn,0,false).toArray();
+      //  String[]frameTwo = (String[]) frame(dnaIn,1,false).toArray();
+      //  String[]frameThree = (String[]) frame(dnaIn,2,false).toArray();
+      // System.out.println(frameOne.toString() + frameTwo.toString() + frameThree.toString());
        
 
-        return output;
+    return frame(dnaIn,1,false);
+    }
+    
+    private Collection frame(String dna, int readFrame, boolean reverse){
+        ArrayList<String>frameOut = new ArrayList<>(20);
+        ArrayList<String>dnaIn = new ArrayList<>(20);
+        String codon = "";
+        
+        
+        for(int i = 0; i <dna.length();i+=3){
+            dnaIn.add(dna.substring(i, i+3));
+        }
+        Iterator<String> iterateRibo = dnaIn.iterator();
+        
+        
+        
+        for(int i = readFrame; i < dnaIn.size() ;i++){ 
+            if (translationTable.containsKey(iterateRibo.next())){
+                frameOut.add(whatProtein(dnaIn.get(i)));
+            }
+            else{
+                frameOut.add("False");
+            }
+            
+        }
+        
+        return frameOut;
+    }
+    
+    private String whatProtein(String dnaIn){
+       return translationTable.get(dnaIn);
     }
 
 }
