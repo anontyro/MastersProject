@@ -31,7 +31,7 @@ public class Test {
         
         
         
-        DNASequence sq1 = new DNASequence(">test","ATGCACAAAGGG");
+        DNASequence sq1 = new DNASequence(">test","GCTGATGCCGCAGCGTAG");
         ProteinSequence sq2 = new ProteinSequence("Lactate", "SNDVVIRSSPVICYH");
         Ribosome ribo = new Ribosome();
 

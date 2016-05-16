@@ -1,12 +1,21 @@
 import java.util.*;
 
-public class Ribosome {
+public class Ribosome{
     
     private String description = "";
     private String content = "";
     private Map<String,String>translationTable = translationTable();
     
+
+    
     Ribosome(){
+      
+    }
+    
+    public Collection validLetters(){
+        ArrayList<String>validLetters = new ArrayList<>();
+        
+        return validLetters;
     }
     
     
@@ -41,19 +50,11 @@ public class Ribosome {
        
         
         ArrayList<String>outputFrame = new ArrayList<>();
+        
+        outputFrame = (ArrayList<String>) frame(dnaIn);
 
        
-            
-           
-        //add Iterator to check that the sequence is found in the translationTable    
-                
-      //  String[]frameOne = (String[]) frame(dnaIn,0,false).toArray();
-      //  String[]frameTwo = (String[]) frame(dnaIn,1,false).toArray();
-      //  String[]frameThree = (String[]) frame(dnaIn,2,false).toArray();
-      // System.out.println(frameOne.toString() + frameTwo.toString() + frameThree.toString());
-       
-
-    return frame(dnaIn,1,false);
+        return frame(dnaIn);
     }
     
     private Collection frame(String dna, int readFrame, boolean reverse){
@@ -84,6 +85,40 @@ public class Ribosome {
     
     private String whatProtein(String dnaIn){
        return translationTable.get(dnaIn);
+    }
+    
+    public Collection frame(String dna){
+        ArrayList<String>out = new ArrayList<>();
+        ArrayList<String>inRev = new ArrayList<>();
+        ArrayList<String>input = new ArrayList<>();
+        ArrayList<String>orderedOut = new ArrayList<>();
+        //int i = readFrame;
+        DNASequence seq1 = new DNASequence("temp", dna);
+        seq1 = seq1.revComp();
+        String dnaRev = seq1.getContent();
+        
+                
+        for(int i = 0;i <dna.length()-2;i++){
+            input.add(dna.substring(i, i+3));
+            inRev.add(dnaRev.substring(i,i+3));
+        }
+                
+        Iterator<String> iterateRibo = input.iterator();
+        Iterator<String> iterateRev = inRev.iterator();
+        
+        for(int i = 0; i <input.size();i++){
+            if(translationTable.containsKey(iterateRibo.next())){
+                out.add(whatProtein(input.get(i)));
+                out.add(whatProtein(inRev.get(i)));
+            }
+            else{
+                out.add("Error");
+            }
+        }
+        
+
+        
+        return out;
     }
 
 }
