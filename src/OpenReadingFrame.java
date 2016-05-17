@@ -1,17 +1,34 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+import java.util.*;
 
-/**
- *
- * @author Alex
- */
 public class OpenReadingFrame extends ProteinSequence{
+    private String description = "";
+    private String content = "";
 
-    OpenReadingFrame(String description, String content){
+    OpenReadingFrame(String description, String content) throws InvalidSequenceException{
         super(description,content);
+        try{
+            this.content = content;
+            this.description = description;
+            if (content.charAt(0) != 'M' || content.charAt(content.length()-1) != '*'){
+                throw new InvalidSequenceException(content,0);
+            }
+        }
+            catch(InvalidSequenceException e){
+                System.err.println(e);
+                System.exit(1);
+            }
+    }
+    
+    public Collection validLetters(){
+        return convertString("GALMFWKSNDPVICYHRTQE*");
+    }
+    
+    public static Collection getORFs(){
+       ArrayList<String>output = new ArrayList<>();
+       
+       
+       
+       return output;
     }
     
     

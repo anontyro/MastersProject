@@ -29,20 +29,50 @@ public class Test {
         
         */
         
-        
+                                //GALMFWKSNDPVICYHRTQE*
         
         DNASequence sq1 = new DNASequence(">test","attatcata");
         ProteinSequence sq2 = new ProteinSequence("Lactate", "SNDVVIRSSPVICYH");
         Ribosome ribo = new Ribosome();
+        
+        String content = "MFWK*ASPV*AMSW*";
+        ArrayList<String>allFrames = new ArrayList<>();
+        for(int i = 0; i <content.length();i++){
+            allFrames.add(content.substring(i, i+1));
+        }
+        
+        System.out.println(allFrames.toString());
+        
+        ArrayList<String>orf = new ArrayList<>();
+        for(String x: allFrames){
+            int count = 0;
+            if(x.equals("M")){
+                while(x != "*"){
+                    
+                    
+                }
+            }
+        }
+        
+/*
 
-        System.out.println(sq1.getContent());
-        System.out.println(sq1.validLetters());
-        System.out.println(sq1.getLength());
-        System.out.println(sq1.toString());
-        System.out.println(sq1.revComp());
-        System.out.println(ribo.translateDNA(sq1));
+  try{
+            OpenReadingFrame orf = new OpenReadingFrame("Lactate", "MSNDVVVPV*");
+            System.out.println(orf);
+        }
+        catch(InvalidSequenceException e){
+            System.err.println(e);
+        }
+*/
+        
+       // System.out.println(sq1.getContent());
+       // System.out.println(sq1.validLetters());
+       // System.out.println(sq1.getLength());
+       // System.out.println(sq1.toString());
+       // System.out.println(sq1.revComp());
+       // System.out.println(ribo.translateDNA(sq1));
        // System.out.println(ribo.whatProtein("ATG"));
-        //ribo.translateDNA(sq1);
+       // ribo.translateDNA(sq1);
         
         
         //System.out.println(sq1.revComp());

@@ -1,12 +1,22 @@
+
 import java.util.*;
 import java.io.*;
+
+/**
+ * An abstract class Sequence
+ */
 
 public abstract class Sequence {
     private String description = "";
     private String content = "";
     
  
-    
+/**
+ * Constructor that takes two Strings 
+ * @param description
+ * @param content 
+ * Will perform validation on content param if mismatch catches InvalidSequenceException
+ */    
     Sequence(String description, String content){
         this.description = description;
         this.content = content.toUpperCase();
@@ -18,19 +28,37 @@ public abstract class Sequence {
             System.exit(1);
         }
     }
-    
+
+/**
+ * return the description field
+ * 
+ */        
     public String getDescription(){
         return description;
     }
-    
+
+/**
+ * return the content field 
+ *  
+ */
     public String getContent(){
         return content;
     }
-    
+
+/**
+ * return the size of the content added
+ * 
+ */    
     public int getLength(){
         return content.length();
     }
-        
+
+/**
+ * validate accepts the validLetters() method and then will compare the method
+ * to the data in the content. If there is a mismatch will throw InvalidSequenceException
+ * @param validLetters
+ * @throws InvalidSequenceException 
+ */    
     public void validate(Collection<String>validLetters) throws InvalidSequenceException {
         ArrayList<String>contentList = new ArrayList<>();
         
@@ -51,13 +79,26 @@ public abstract class Sequence {
         }  
 
     }
-    
+
+/**
+ * abstract method validLetters that returns a Collection which will be used in
+ * validate
+ * @return Collection
+ */    
     public abstract Collection validLetters();
-    
+
+/**
+ * @return String description and content on two different lines
+ */    
     public String toString(){
         return description+"\n"+content; 
     }
-    
+
+/**
+ * method to write the sequence description and content to a chosen filename
+ * @param filename
+ * @throws IOException 
+ */    
     public void writeToFile(String filename) throws IOException{
         PrintWriter out = null;
         
@@ -65,11 +106,7 @@ public abstract class Sequence {
             
             String outDescription ="";
             String[]outDescrip = (toString().split("\n"));
-            /*
-            for(int i = 0; i < outDescrip.length;i++){
-            outDescription += outDescrip[i];
-                       
-        }*/
+
             outDescription = outDescrip[0] + " \n " + outDescrip[1];
             
             File outFile = new File(filename);
@@ -91,6 +128,13 @@ public abstract class Sequence {
         }
     }
     
+/**
+ * method to read the description from a chosen file, following the FASTA format
+ * starting with '>'
+ * @param filename
+ * @return output file
+ * @throws IOException 
+ */    
     public String getDescription(String filename) throws IOException{
         File inFile = new File(filename);
         BufferedReader bin = null;
@@ -100,8 +144,7 @@ public abstract class Sequence {
         
         try{
             FileReader fin = new FileReader(inFile);
-            bin = new BufferedReader(fin);
-            
+            bin = new BufferedReader(fin);            
             String line = bin.readLine();
             while(line != null){    
             descOutput += line + "\n";
@@ -130,7 +173,13 @@ public abstract class Sequence {
         
         return output;
     }
-    
+
+/**
+ * method to get the content from a chosen file following the FASTA format
+ * @param filename
+ * @return output filename
+ * @throws IOException 
+ */    
     public String getContent(String filename) throws IOException{
         File inFile = new File(filename);
         BufferedReader bin = null;

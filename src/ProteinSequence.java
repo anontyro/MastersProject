@@ -1,19 +1,27 @@
 import java.util.*;
 
+/**
+ * class ProteinSequence that extends Sequence
+ */
 public class ProteinSequence extends Sequence {
 
+/**
+ * creates a new ProteinSequence taking two string parameters
+ * @param description
+ * @param content 
+ */    
     public ProteinSequence(String description, String content) {
         super(description, content);
     }
     
+/**
+ * method that contains all the valid protein characters that can be accepted
+ * @return Collection of valid protein characters
+ */    
     public Collection validLetters(){
         return convertString("GALMFWKSNDPVICYHRTQE");
     }
     
-    /**
-     *
-     * @return
-     */
     protected Collection convertString(String convertString){
         ArrayList<String>validProtein = new ArrayList<>();
         //String validpro = "GALMFWKSNDPVICYHRTQE";
@@ -23,6 +31,12 @@ public class ProteinSequence extends Sequence {
         return validProtein;
     }
     
+/**
+ * method that accepts the protein single character code to return the three
+ * letter code
+ * @param aaCode
+ * @return String protein three digit code
+ */    
     public static String getThreeLetterCode(String aaCode){
         String[]threeLetters = {"Gly", "Ala", "Leu", "Met", "Phe", "Trp", "Lys",
             "Ser", "Asn", "Asp", "Pro", "Val", "Ile", "Cys", "Tyr", "His", "Arg",
@@ -38,6 +52,11 @@ public class ProteinSequence extends Sequence {
         return protienMap.get(aaCode);
     }
     
+/**
+ * method that accepts the three digit code to return the full protein name
+ * @param aaCode
+ * @return String protein name
+ */    
     public static String getFullName(String aaCode){
         String[]threeLetters = {"Gly", "Ala", "Leu", "Met", "Phe", "Trp", "Lys",
             "Ser", "Asn", "Asp", "Pro", "Val", "Ile", "Cys", "Tyr", "His", "Arg",

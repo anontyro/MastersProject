@@ -1,25 +1,22 @@
 import java.util.*;
-
+/**
+ * simple class for Ribosome
+ */
 public class Ribosome{
     
-    private String description = "";
-    private String content = "";
-    private Map<String,String>translationTable = translationTable();
+    private final Map<String,String>translationTable = translationTable();
     
-
-    
-    Ribosome(){
-      
+/**
+ * create a Ribosome object, takes no parameters
+ */    
+    Ribosome(){      
     }
     
-    public Collection validLetters(){
-        ArrayList<String>validLetters = new ArrayList<>();
-        
-        return validLetters;
-    }
-    
-    
-    
+/**
+ * method for a static translationTable that links the correct protein name to
+ * their three DNA base code
+ * @return Map TranslationTable
+ */       
     public static Map translationTable(){
         Map<String, String>translationTable = new HashMap<>(60);
         
@@ -44,6 +41,12 @@ public class Ribosome{
      
     }
     
+/**
+ * method that accepts a DNASequence and returns an array of all six different
+ * frames ordered fame1, reverse complement 1, frame2, reverse complement 2, etc
+ * @param newDNA
+ * @return Array of all six reading frames
+ */    
     public Collection translateDNA(DNASequence newDNA){
         String[]output = new String[10];
         String dnaIn = newDNA.getContent();
