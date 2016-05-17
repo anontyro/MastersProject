@@ -115,11 +115,22 @@ public class Ribosome{
                 out.add("Error");
             }
         }
-        
+        // still not returning the last position of the final frame
+        int i = 0;
+        while(i<6){
+            int x = 0 + i;
+            while((i + x) < out.size()+1){
+                orderedOut.add(out.get(x));
+                x += 6;   
+            }
+            i++;
+        }
+
 
         
-        return out;
+        return orderedOut;
     }
+
 
 }
 

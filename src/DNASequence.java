@@ -10,8 +10,7 @@ public class DNASequence extends Sequence {
     
     public DNASequence(String description,String content){
         super(description,content);
-        this.content = content;
-        this.content.toUpperCase();
+        this.content = content.toUpperCase();
         this.description = description;
     }
     
@@ -40,7 +39,7 @@ public class DNASequence extends Sequence {
                 reverse[i]='A';
             }
             else{
-                reverse[i]='C';
+                reverse[i]='G';
             }
             reverseContent+=reverse[i];
         }

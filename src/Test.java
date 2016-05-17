@@ -31,7 +31,7 @@ public class Test {
         
         
         
-        DNASequence sq1 = new DNASequence(">test","GCTGATGCCGCAGCGTAG");
+        DNASequence sq1 = new DNASequence(">test","attatcata");
         ProteinSequence sq2 = new ProteinSequence("Lactate", "SNDVVIRSSPVICYH");
         Ribosome ribo = new Ribosome();
 
@@ -39,6 +39,7 @@ public class Test {
         System.out.println(sq1.validLetters());
         System.out.println(sq1.getLength());
         System.out.println(sq1.toString());
+        System.out.println(sq1.revComp());
         System.out.println(ribo.translateDNA(sq1));
        // System.out.println(ribo.whatProtein("ATG"));
         //ribo.translateDNA(sq1);

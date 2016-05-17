@@ -9,7 +9,7 @@ public abstract class Sequence {
     
     Sequence(String description, String content){
         this.description = description;
-        this.content = content;
+        this.content = content.toUpperCase();
         try{
         validate(validLetters());
         }
