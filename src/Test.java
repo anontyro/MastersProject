@@ -34,29 +34,64 @@ public class Test {
         DNASequence sq1 = new DNASequence(">test","attatcata");
         ProteinSequence sq2 = new ProteinSequence("Lactate", "SNDVVIRSSPVICYH");
         Ribosome ribo = new Ribosome();
+
+        ArrayList<String>orf = new ArrayList<>();
+        String content = "MFWK*ASPV*AMSW*CYHRTMFWK*HRTYYMQTRHYYY*";
         
-        String content = "MFWK*ASPV*AMSW*";
+        //GALMFWKSNDPVICYHRTQE
+        //Open reading frame logic
+        
         ArrayList<String>allFrames = new ArrayList<>();
         for(int i = 0; i <content.length();i++){
-            allFrames.add(content.substring(i, i+1));
+            allFrames.add(content.substring(i, i+1).trim());
         }
+        String[]frameArray = new String[allFrames.size()];
+        frameArray = allFrames.toArray(frameArray);
         
-        System.out.println(allFrames.toString());
+        String frameOutput = "";
+        for(int i = 0; i < frameArray.length;i++){
+            frameOutput += frameArray[i];
+        }
+        System.out.println(frameOutput);
+
         
-        ArrayList<String>orf = new ArrayList<>();
-        for(String x: allFrames){
-            int count = 0;
-            if(x.equals("M")){
-                while(x != "*"){
-                    
-                    
+        for(int i = 0; i <frameArray.length;i++){
+            if(frameArray[i].equals("M")){
+                String frameCapture = "";
+                do{
+                    frameCapture+=frameArray[i];
+                    i++; 
+                    if(frameArray[i].equals("*")){
+                        frameCapture+=frameArray[i];
+                        frameCapture = frameCapture.trim();
+                        orf.add(frameCapture);
+                    }
                 }
+                while(!frameArray[i].equals("*"));
+
             }
         }
         
-/*
+        
+ 
+        System.out.println(orf.toString());
+        
 
-  try{
+        
+        
+
+/*
+        try{
+            System.out.println(sq1.getDescription("test.txt"));
+            System.out.println();
+            System.out.println(sq1.getContent("test.txt"));
+            System.out.println();
+        }
+        catch(IOException e){
+            System.err.println(e);
+        }
+
+        try{
             OpenReadingFrame orf = new OpenReadingFrame("Lactate", "MSNDVVVPV*");
             System.out.println(orf);
         }

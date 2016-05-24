@@ -67,15 +67,12 @@ public abstract class Sequence {
         }
         
         Iterator<String> iterateValid = contentList.iterator();
-        int index = 0;
-        
+
         for(int i = 0; i < contentList.size(); i++){
-            if(validLetters.contains(iterateValid.next())){
-                index++;
-            }
-            else{
+            if(!validLetters.contains(iterateValid.next())){
                 throw new InvalidSequenceException(content,i);
-            }                
+            }
+                
         }  
 
     }
@@ -136,6 +133,23 @@ public abstract class Sequence {
  * @throws IOException 
  */    
     public String getDescription(String filename) throws IOException{
+
+            return readFile(0,filename);
+        
+    }
+
+/**
+ * method to get the content from a chosen file following the FASTA format
+ * @param filename
+ * @return output filename
+ * @throws IOException 
+ */    
+    public String getContent(String filename) throws IOException{
+ 
+        return readFile(1,filename);
+    }
+    
+    private String readFile(int toReturn, String filename) throws IOException{
         File inFile = new File(filename);
         BufferedReader bin = null;
         String descOutput = "";
@@ -160,7 +174,8 @@ public abstract class Sequence {
                 else
                      body += textSplit[i];
             }
-            output.trim();
+            output = output.trim();
+            body = body.trim();
                 
         }
         catch(IOException e){
@@ -170,55 +185,13 @@ public abstract class Sequence {
             if(bin !=null) {bin.close();}
         }
         
-        
-        return output;
-    }
+        if (toReturn == 0){
+            return output;
+        }
+        else{
+            return body;
+        }
 
-/**
- * method to get the content from a chosen file following the FASTA format
- * @param filename
- * @return output filename
- * @throws IOException 
- */    
-    public String getContent(String filename) throws IOException{
-        File inFile = new File(filename);
-        BufferedReader bin = null;
-        String descOutput = "";
-        String output = "";
-        String body = "";
-        
-        try{
-            FileReader fin = new FileReader(inFile);
-            bin = new BufferedReader(fin);
-            
-            String line = bin.readLine();
-            while(line != null){    
-            descOutput += line + "\n";
-            line = bin.readLine();
-            }
-            
-            String[]textSplit = descOutput.split("\n");
-            
-            for(int i = 0; i < textSplit.length;i++){
-                if(textSplit[i].startsWith(">")){
-                    output += textSplit[i];
-                }
-                else
-                     body += textSplit[i];
-            }
-            output.trim();
-            body.trim();
-                
-        }
-        catch(IOException e){
-            System.err.println(e.getMessage());
-        }
-        finally{
-            if(bin !=null) {bin.close();}
-        }
-        
-        
-        return body;
-    }    
+    }
     
 }

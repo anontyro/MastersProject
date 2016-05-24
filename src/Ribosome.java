@@ -95,7 +95,6 @@ public class Ribosome{
         ArrayList<String>inRev = new ArrayList<>();
         ArrayList<String>input = new ArrayList<>();
         ArrayList<String>orderedOut = new ArrayList<>();
-        //int i = readFrame;
         DNASequence seq1 = new DNASequence("temp", dna);
         seq1 = seq1.revComp();
         String dnaRev = seq1.getContent();
