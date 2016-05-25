@@ -47,15 +47,8 @@ public class Ribosome{
  * @param newDNA
  * @return Array of all six reading frames
  */    
-    public Collection translateDNA(DNASequence newDNA){
-        String[]output = new String[10];
+    public String[] translateDNA(DNASequence newDNA){
         String dnaIn = newDNA.getContent();
-       
-        
-        ArrayList<String>outputFrame = new ArrayList<>();
-        
-        outputFrame = (ArrayList<String>) frame(dnaIn);
-
        
         return frame(dnaIn);
     }
@@ -90,7 +83,7 @@ public class Ribosome{
        return translationTable.get(dnaIn);
     }
     
-    public Collection frame(String dna){
+    public String[] frame(String dna){
         ArrayList<String>out = new ArrayList<>();
         ArrayList<String>inRev = new ArrayList<>();
         ArrayList<String>input = new ArrayList<>();
@@ -117,7 +110,7 @@ public class Ribosome{
                 out.add("Error");
             }
         }
-        // still not returning the last position of the final frame
+
         int i = 0;
         while(i<6){
             int x = 0 + i;
@@ -127,10 +120,13 @@ public class Ribosome{
             }
             i++;
         }
+        String[]outputArray = new String[orderedOut.size()];
+        outputArray = orderedOut.toArray(outputArray);
+        
 
 
         
-        return orderedOut;
+        return outputArray;
     }
 
 

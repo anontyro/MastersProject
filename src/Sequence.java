@@ -176,6 +176,7 @@ public abstract class Sequence {
             }
             output = output.trim();
             body = body.trim();
+            body = body.replaceAll("\\s+","");
                 
         }
         catch(IOException e){
