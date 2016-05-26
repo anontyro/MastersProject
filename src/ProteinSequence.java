@@ -1,4 +1,5 @@
 import java.util.*;
+import java.io.*;
 
 /**
  * class ProteinSequence that extends Sequence
@@ -12,6 +13,14 @@ public class ProteinSequence extends Sequence {
  */    
     public ProteinSequence(String description, String content) {
         super(description, content);
+    }
+/**
+ * Creates a new protein object from a specific file
+ * @param filename
+ * @throws IOException 
+ */    
+    public ProteinSequence(String filename) throws IOException{
+        super(filename);
     }
     
 /**

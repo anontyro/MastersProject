@@ -1,4 +1,4 @@
-
+import java.io.*;
 import java.util.*;
 
 /**
@@ -18,6 +18,16 @@ public class DNASequence extends Sequence {
         super(description,content);
         this.content = content.toUpperCase();
         this.description = description;
+    }
+    
+    /**
+     * Creates a new DNASequence object from a file pulling the description
+     * and content
+     * @param filename
+     * @throws IOException
+     */
+    public DNASequence(String filename) throws IOException{
+        super(filename);
     }
     
 /**

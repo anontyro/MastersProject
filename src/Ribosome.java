@@ -83,7 +83,7 @@ public class Ribosome{
        return translationTable.get(dnaIn);
     }
     
-    public String[] frame(String dna){
+    private String[] frame(String dna){
         ArrayList<String>out = new ArrayList<>();
         ArrayList<String>inRev = new ArrayList<>();
         ArrayList<String>input = new ArrayList<>();

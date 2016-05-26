@@ -1,6 +1,8 @@
 
 import java.util.*;
 import java.io.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /*
  class StringLengthListSort implements Comparator<String>{
@@ -20,17 +22,38 @@ public class Test2 {
         Ribosome ribo = new Ribosome();
         
         try{
-            System.out.println(sq1.getDescription("insulin.txt"));
+           // System.out.println(sq1.getDescription("insulin.txt"));
             System.out.println();
-            System.out.println(sq1.getContent("insulin.txt"));
+            //System.out.println(sq1.getContent("insulin.txt"));
             System.out.println();
+            DNASequence seq = new DNASequence("insulin.txt");
             
-            DNASequence insulin = new DNASequence(sq1.getDescription("insulin.txt"),sq1.getContent("insulin.txt"));
-            System.out.println(insulin.toString());
+            //DNASequence insulin = new DNASequence(sq1.getDescription("insulin.txt"),sq1.getContent("insulin.txt"));
+            System.out.println(seq.toString());
+            
+            String[]insulinFrames = ribo.translateDNA(seq);
+            String outFrames = "";
+            for(String x:insulinFrames){
+                outFrames += x;
+            }
+            System.out.println(outFrames);
+            
+            OpenReadingFrame insulinPro = new OpenReadingFrame(seq.getDescription(),outFrames);
+            System.out.println("Protien is: \n " + insulinPro.toString());
+            ArrayList<String>insulinOut = new ArrayList<>();
+            
+            insulinOut = (ArrayList<String>) insulinPro.getORFs(insulinPro);
+            
+            System.out.println(insulinOut.toString());
+     
         }
         catch(IOException e){
             System.err.println(e);
+        } catch (InvalidSequenceException ex) {
+            Logger.getLogger(Test2.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
+        
         
       /*  String testSq = ">Rhino DNA \n "
                 + "ATCGAAATAACGGTAGGGG";

@@ -13,6 +13,8 @@ public class OpenReadingFrame extends ProteinSequence{
 
     OpenReadingFrame(String description, String content) throws InvalidSequenceException{
         super(description,content);
+        this.content = content;
+        /*
         try{
             this.content = content;
             this.description = description;
@@ -24,6 +26,7 @@ public class OpenReadingFrame extends ProteinSequence{
                 System.err.println(e);
                 System.exit(1);
             }
+        */
     }
     
     public Collection validLetters(){

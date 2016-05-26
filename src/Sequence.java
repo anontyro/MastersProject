@@ -28,6 +28,18 @@ public abstract class Sequence {
             System.exit(1);
         }
     }
+    
+    Sequence(String filename) throws IOException{
+        try{
+            content = getContent(filename);
+            description = getDescription(filename);
+            content = content.toUpperCase();
+        }
+        catch(IOException e){
+            System.err.println(e);
+        }
+    }
+
 
 /**
  * return the description field
@@ -85,11 +97,18 @@ public abstract class Sequence {
     public abstract Collection validLetters();
 
 /**
- * @return String description and content on two different lines
+ * @return String description and content on two different lines.
+ * If the content is longer than 80 characters it will split the lines
+ * to allow for better readability (splits every 80 characters)
  */    
     public String toString(){
-        return description+"\n"+content; 
+        String value = "80";
+        String output = content.replaceAll("(.{" + value + "})","$1\n").trim();
+        
+        return description+"\n"+output; 
     }
+    
+
 
 /**
  * method to write the sequence description and content to a chosen filename
@@ -134,8 +153,7 @@ public abstract class Sequence {
  */    
     public String getDescription(String filename) throws IOException{
 
-            return readFile(0,filename);
-        
+            return readFile(0,filename);        
     }
 
 /**
