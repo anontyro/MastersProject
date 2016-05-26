@@ -1,9 +1,9 @@
+import java.io.IOException;
 import java.util.*;
 
 /**
  * subclass used for the string comparison in order to order the reading frames
  * in the correct order
- * @author Alex
  */
 class StringLengthListSort implements Comparator<String>{
     
@@ -21,7 +21,6 @@ class StringLengthListSort implements Comparator<String>{
 /**
  * This class extends proteinSequences to provide extra abilities to proteins when
  * you want to create the open reading frames for the sequence strings
- * @author Alex
  */
 public class OpenReadingFrame extends ProteinSequence{
     
@@ -29,10 +28,13 @@ public class OpenReadingFrame extends ProteinSequence{
     private String content = "";
 
 /**
- * 
- * @param description
- * @param content
- * @throws InvalidSequenceException 
+ * Creates an OpenReadingFrame object taking in two parameters to create 
+ * @param description the name of the sequence added, in the FASTA format starting
+ * with a &gt;
+ * @param content the main body of the sequence containing only valid amino acid
+ * codes including the stop code
+ * @throws InvalidSequenceException if an invalid protein code is added then this
+ * exception will be thrown
  */    
     OpenReadingFrame(String description, String content) throws InvalidSequenceException{
         super(description,content);
@@ -52,9 +54,10 @@ public class OpenReadingFrame extends ProteinSequence{
             }
         */
     }
+    
 /**
- * 
- * @return 
+ * Will return an ArrayList of all the valid letters that can be used in this class
+ * @return validLetters ArrayList that contains all the valid amino acids
  */    
     public Collection validLetters(){
         return convertString("GALMFWKSNDPVICYHRTQE*");
@@ -62,8 +65,12 @@ public class OpenReadingFrame extends ProteinSequence{
 
 /**
  * 
- * @param proSequ
- * @return 
+ * This method takes a protein Sequence object and finds all of the open reading
+ * frames starting at the 'M' character and finishing at the '*' It will then order
+ * the frames from biggest to smallest in an ArrayList of strings
+ * @param proSequ takes a ProteinSequence object as the parameter
+ * @return will output an ordered list of all the open reading frames starting with
+ * the biggest and ending with the smallest
  */    
     public static Collection getORFs(ProteinSequence proSequ){
        ArrayList<String>output = new ArrayList<>();
@@ -94,8 +101,5 @@ public class OpenReadingFrame extends ProteinSequence{
        return output;
     }
     
-    
 
-    
-    
 }

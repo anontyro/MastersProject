@@ -2,7 +2,7 @@ import java.util.*;
 import java.io.*;
 
 /**
- * class ProteinSequence that extends Sequence
+ * class ProteinSequence that extends Sequence used to create a new Protein object
  */
 public class ProteinSequence extends Sequence {
 
@@ -79,6 +79,21 @@ public class ProteinSequence extends Sequence {
             fullNameMap.put(threeLetters[i], fullProtien[i]);
         }
         return fullNameMap.get(getThreeLetterCode(aaCode));
+    }
+    
+/**
+ * static method that can make a new ProteinSequence object from the file, which
+ * must be formatted in FASTA format starting with a &gt; when
+ * stating file if not in current dir must state the full path
+ * @param filename in a string format ending in the suffix .txt .doc etc
+ * @return a new ProteinSequence object made from the FASTA
+ * @throws IOException thrown when the file reading is interrupted for any reason
+ */    
+    public static ProteinSequence makeSequence(String filename) throws IOException{
+        ProteinSequence protSequ;
+        protSequ = new ProteinSequence(getDescription(filename),getContent(filename));
+        
+        return protSequ;
     }
     
 }

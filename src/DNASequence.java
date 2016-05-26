@@ -2,7 +2,7 @@ import java.io.*;
 import java.util.*;
 
 /**
- *  class DNASequence that extends Sequence
+ * class DNASequence that extends Sequence to create DNASequence objects
  */
 public class DNASequence extends Sequence {
     
@@ -69,6 +69,20 @@ public class DNASequence extends Sequence {
         
         DNASequence seq = new DNASequence(description,reverseContent);
         return seq;
+    }
+ 
+/**
+ * static method that can make a new DNASequence object from the file, which
+ * must be formatted in FASTA format starting with a &gt; when
+ * stating file if not in current dir must state the full path
+ * @param filename in a string format ending in the suffix .txt .doc etc
+ * @return a new DNASequence object made from the FASTA
+ * @throws IOException thrown when the file reading is interrupted for any reason
+ */    
+    public static DNASequence makeSequence(String filename) throws IOException{
+        DNASequence dnaSequ;
+        dnaSequ = new DNASequence(getDescription(filename),getContent(filename));
+        return dnaSequ;
     }
 
     

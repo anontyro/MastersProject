@@ -127,9 +127,7 @@ public abstract class Sequence {
         String output = content.replaceAll("(.{" + value + "})","$1\n").trim();
         
         return description+"\n"+output; 
-    }
-    
-
+    }    
 
 /**
  * method to write the sequence description and content to a chosen filename
@@ -174,25 +172,25 @@ public abstract class Sequence {
  * @return description that comes directly from the file line starting with &gt;
  * @throws IOException thrown if a reading error occurs
  */    
-    public String getDescription(String filename) throws IOException{
+    public static String getDescription(String filename) throws IOException{
 
             return readFile(0,filename);        
     }
 
 /**
- * method to get the content from a chosen file following the FASTA format
+ * static method to get the content from a chosen file following the FASTA format
  * @param filename requires a string file or full dir string ending in the correct
  * suffix .txt .doc etc
  * @return content that comes directly from the file in FASTA format with no spacing
  * or special characters only valid letters in uppercase
  * @throws IOException thrown if a reading error occurs
  */    
-    public String getContent(String filename) throws IOException{
+    public static String getContent(String filename) throws IOException{
  
         return readFile(1,filename);
     }
     
-    private String readFile(int toReturn, String filename) throws IOException{
+    private static String readFile(int toReturn, String filename) throws IOException{
         File inFile = new File(filename);
         BufferedReader bin = null;
         String descOutput = "";

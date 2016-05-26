@@ -1,10 +1,11 @@
 import java.util.*;
 /**
- * simple class for Ribosome
+ * simple class for Ribosome that creates several static methods to be used with
+ * different sequences
  */
 public class Ribosome{
     
-    private final Map<String,String>translationTable = translationTable();
+    private static final Map<String,String>translationTable = translationTable();
     
 /**
  * create a Ribosome object, takes no parameters
@@ -44,10 +45,11 @@ public class Ribosome{
 /**
  * method that accepts a DNASequence and returns an array of all six different
  * frames ordered fame1, reverse complement 1, frame2, reverse complement 2, etc
- * @param newDNA
+ * @param newDNA a DNASequence object that is taken to be read into the six different
+ * reading frames
  * @return Array of all six reading frames
  */    
-    public String[] translateDNA(DNASequence newDNA){
+    public static String[] translateDNA(DNASequence newDNA){
         String dnaIn = newDNA.getContent();
        
         return frame(dnaIn);
@@ -79,11 +81,11 @@ public class Ribosome{
         return frameOut;
     }
     
-    private String whatProtein(String dnaIn){
+    private static String whatProtein(String dnaIn){
        return translationTable.get(dnaIn);
     }
     
-    private String[] frame(String dna){
+    private static String[] frame(String dna){
         ArrayList<String>out = new ArrayList<>();
         ArrayList<String>inRev = new ArrayList<>();
         ArrayList<String>input = new ArrayList<>();
