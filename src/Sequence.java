@@ -3,19 +3,22 @@ import java.util.*;
 import java.io.*;
 
 /**
- * An abstract class Sequence
+ * An abstract class Sequence is the superclass for a number of classes, this
+ * class provides the general functionality needed when creating a new biological
+ * sequence
  */
 
 public abstract class Sequence {
     private String description = "";
     private String content = "";
-    
- 
+     
 /**
- * Constructor that takes two Strings 
- * @param description
- * @param content 
- * Will perform validation on content param if mismatch catches InvalidSequenceException
+ * Constructor that takes two Strings to create a new sequence object, will throw
+ * an error if the content contains invalid letters, accepts lowercase letters
+ * as they will be converted to uppercase
+ * @param description the description input required in the FASTA format, starting with
+ * a &gt;
+ * @param content the full content string to be made into an object
  */    
     Sequence(String description, String content){
         this.description = description;
@@ -28,38 +31,51 @@ public abstract class Sequence {
             System.exit(1);
         }
     }
-    
-    Sequence(String filename) throws IOException{
+
+/**
+ * This constructor accepts only a filename string to then create a new sequence
+ * object from that file, requires the file to be in a FASTA format
+ * @param filename full filename of the file including dir if in a different directory
+ * with the extension eg .txt .doc etc
+ * @throws IOException If the file is not able to be read from this error will be thrown
+ * @throws InvalidSequenceException If the file finds a character that is not valid
+ * in the sequence this will be thrown
+ */    
+    Sequence(String filename) throws IOException, InvalidSequenceException{
         try{
             content = getContent(filename);
             description = getDescription(filename);
             content = content.toUpperCase();
+            validate(validLetters());
         }
         catch(IOException e){
+            System.err.println(e);
+        }
+        catch(InvalidSequenceException e){
             System.err.println(e);
         }
     }
 
 
 /**
- * return the description field
- * 
+ * return the description of the object in FASTA format starting with a &gt;
+ * @return Will return the name of the sequence in the FASTA format
  */        
     public String getDescription(){
         return description;
     }
 
 /**
- * return the content field 
- *  
+ * Calls the content field containing the main sequence
+ *  @return Will return the body of the sequence in an unformatted manner
  */
     public String getContent(){
         return content;
     }
 
 /**
- * return the size of the content added
- * 
+ * Method to check how long the content is in the file
+ * @return will Return the total length of the main file content
  */    
     public int getLength(){
         return content.length();
@@ -67,9 +83,11 @@ public abstract class Sequence {
 
 /**
  * validate accepts the validLetters() method and then will compare the method
- * to the data in the content. If there is a mismatch will throw InvalidSequenceException
- * @param validLetters
- * @throws InvalidSequenceException 
+ * to the data in the content, If there is a mismatch will throw InvalidSequenceException
+ * @param validLetters a collection of strings that contain all the valid
+ * characters
+ * @throws InvalidSequenceException if the letters are not correctly validated 
+ * this exception is thrown showing the problematic string
  */    
     public void validate(Collection<String>validLetters) throws InvalidSequenceException {
         ArrayList<String>contentList = new ArrayList<>();
@@ -92,11 +110,14 @@ public abstract class Sequence {
 /**
  * abstract method validLetters that returns a Collection which will be used in
  * validate
- * @return Collection
+ * @return Collection this will be used to check if the input is valid
  */    
     public abstract Collection validLetters();
 
 /**
+ * Will create a string of the description and main string content, if the output
+ * is longer than 80 characters it will be split over lines totalling 80 chars 
+ * per line
  * @return String description and content on two different lines.
  * If the content is longer than 80 characters it will split the lines
  * to allow for better readability (splits every 80 characters)
@@ -112,8 +133,9 @@ public abstract class Sequence {
 
 /**
  * method to write the sequence description and content to a chosen filename
- * @param filename
- * @throws IOException 
+ * @param filename accepts a filename or full dir path, written as a string with the 
+ * correct suffix .txt .doc etc
+ * @throws IOException thrown if a write error is found
  */    
     public void writeToFile(String filename) throws IOException{
         PrintWriter out = null;
@@ -146,10 +168,11 @@ public abstract class Sequence {
     
 /**
  * method to read the description from a chosen file, following the FASTA format
- * starting with '>'
- * @param filename
- * @return output file
- * @throws IOException 
+ * starting with &gt;
+ * @param filename requires a string file or full dir string ending in the correct suffix
+ *  .txt .doc etc
+ * @return description that comes directly from the file line starting with &gt;
+ * @throws IOException thrown if a reading error occurs
  */    
     public String getDescription(String filename) throws IOException{
 
@@ -158,9 +181,11 @@ public abstract class Sequence {
 
 /**
  * method to get the content from a chosen file following the FASTA format
- * @param filename
- * @return output filename
- * @throws IOException 
+ * @param filename requires a string file or full dir string ending in the correct
+ * suffix .txt .doc etc
+ * @return content that comes directly from the file in FASTA format with no spacing
+ * or special characters only valid letters in uppercase
+ * @throws IOException thrown if a reading error occurs
  */    
     public String getContent(String filename) throws IOException{
  
@@ -211,6 +236,21 @@ public abstract class Sequence {
             return body;
         }
 
+    }
+/**
+ * Takes a String and changes it to a collection, this is currently used for
+ * the validation processes to make updating easy
+ * @param convertString string of characters required to be used for validation
+ * @return validLetters an ArrayList of strings containing each valid letter
+ * to be used by validate
+ */    
+        protected Collection convertString(String convertString){
+        ArrayList<String>validLetters = new ArrayList<>();
+       
+        for(int i=0;i< convertString.length();i++){
+            validLetters.add(convertString.substring(i, i+1));
+        }
+        return validLetters;
     }
     
 }

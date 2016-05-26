@@ -10,9 +10,10 @@ public class DNASequence extends Sequence {
     private String description = "";
 
 /**
- * create a DNASequence taking two String parmeters
- * @param description
- * @param content 
+ * create a DNASequence taking two String parm
+ * @param description requires input in FASTA format starting with &gt; 
+ * @param content the DNA sequence for the object which should only contain valid
+ * letters and no spaces, will be converted to upper case if required
  */    
     public DNASequence(String description,String content){
         super(description,content);
@@ -23,10 +24,13 @@ public class DNASequence extends Sequence {
     /**
      * Creates a new DNASequence object from a file pulling the description
      * and content
-     * @param filename
-     * @throws IOException
+     * @param filename requires the absolute filename of given file and if required its
+     * full dir listing, will end in a valid extension .txt .doc etc
+     * @throws IOException thrown if file read error
+     * @throws InvalidSequenceException will be thrown if the content of the file
+     * contains illegal characters not represented in a DNA sequence
      */
-    public DNASequence(String filename) throws IOException{
+    public DNASequence(String filename) throws IOException, InvalidSequenceException{
         super(filename);
     }
     
@@ -34,15 +38,8 @@ public class DNASequence extends Sequence {
  * method that holds a collection of validLetters to be checked against
  * @return Collection validLetters 
  */    
-    public Collection validLetters(){
-        ArrayList<String>validLetters = new ArrayList<>();
-        
-        validLetters.add("A");
-        validLetters.add("C");
-        validLetters.add("T");
-        validLetters.add("G");
-        
-        return validLetters;  
+    public Collection validLetters(){        
+        return convertString("ATGC");  
     }
     
 /**

@@ -8,18 +8,22 @@ public class ProteinSequence extends Sequence {
 
 /**
  * creates a new ProteinSequence taking two string parameters
- * @param description
- * @param content 
+ * @param description Name of the protein or file in FASTA format starting with a &gt;
+ * @param content The protein sequence to be accepted as an object, must only use
+ * valid protein characters if not an error will occur
  */    
     public ProteinSequence(String description, String content) {
         super(description, content);
     }
 /**
  * Creates a new protein object from a specific file
- * @param filename
- * @throws IOException 
+ * @param filename absolute filename required to build the new protein object from
+ * requires full dir path if not in current directory with file extension .txt .doc etc
+ * @throws IOException If a read error is encountered exception is thrown
+ * @throws InvalidSequenceException if the file has an invalid character for a
+ * protein it will cause this error to be thrown
  */    
-    public ProteinSequence(String filename) throws IOException{
+    public ProteinSequence(String filename) throws IOException, InvalidSequenceException{
         super(filename);
     }
     
@@ -31,20 +35,13 @@ public class ProteinSequence extends Sequence {
         return convertString("GALMFWKSNDPVICYHRTQE");
     }
     
-    protected Collection convertString(String convertString){
-        ArrayList<String>validProtein = new ArrayList<>();
-        //String validpro = "GALMFWKSNDPVICYHRTQE";
-        for(int i=0;i< convertString.length();i++){
-            validProtein.add(convertString.substring(i, i+1));
-        }
-        return validProtein;
-    }
+
     
 /**
- * method that accepts the protein single character code to return the three
+ * static method that accepts the protein single character code to return the three
  * letter code
- * @param aaCode
- * @return String protein three digit code
+ * @param aaCode accepts an amino acid single character code string
+ * @return threeLetterCode will be output for the single character code
  */    
     public static String getThreeLetterCode(String aaCode){
         String[]threeLetters = {"Gly", "Ala", "Leu", "Met", "Phe", "Trp", "Lys",
@@ -62,9 +59,10 @@ public class ProteinSequence extends Sequence {
     }
     
 /**
- * method that accepts the three digit code to return the full protein name
- * @param aaCode
- * @return String protein name
+ * static method that accepts the three digit code to return the full protein name
+ * @param aaCode a string that is a valid three letter code for an amino acid
+ * starting with an uppercase letter
+ * @return fullProtien will output the full name of the amino acid as a string
  */    
     public static String getFullName(String aaCode){
         String[]threeLetters = {"Gly", "Ala", "Leu", "Met", "Phe", "Trp", "Lys",

@@ -99,7 +99,6 @@ public class Ribosome{
         }
                 
         Iterator<String> iterateRibo = input.iterator();
-        Iterator<String> iterateRev = inRev.iterator();
         
         for(int i = 0; i <input.size();i++){
             if(translationTable.containsKey(iterateRibo.next())){
@@ -110,6 +109,8 @@ public class Ribosome{
                 out.add("Error");
             }
         }
+        input.clear();
+        inRev.clear();
 
         int i = 0;
         while(i<6){

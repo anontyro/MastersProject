@@ -1,19 +1,43 @@
 import java.util.*;
 
+/**
+ * subclass used for the string comparison in order to order the reading frames
+ * in the correct order
+ * @author Alex
+ */
 class StringLengthListSort implements Comparator<String>{
     
+/**
+ * method that will evaluate two strings and return the length difference of the two
+ * @param s1 the open reading frame to be compared
+ * @param s2 the next open reading frame to be compared
+ * @return  returns the difference in size of the two strings
+ */    
     public int compare(String s1, String s2){
         return s2.length() - s1.length();
     }
 }
 
+/**
+ * This class extends proteinSequences to provide extra abilities to proteins when
+ * you want to create the open reading frames for the sequence strings
+ * @author Alex
+ */
 public class OpenReadingFrame extends ProteinSequence{
+    
     private String description = "";
     private String content = "";
 
+/**
+ * 
+ * @param description
+ * @param content
+ * @throws InvalidSequenceException 
+ */    
     OpenReadingFrame(String description, String content) throws InvalidSequenceException{
         super(description,content);
         this.content = content;
+        this.description = description;
         /*
         try{
             this.content = content;
@@ -28,11 +52,19 @@ public class OpenReadingFrame extends ProteinSequence{
             }
         */
     }
-    
+/**
+ * 
+ * @return 
+ */    
     public Collection validLetters(){
         return convertString("GALMFWKSNDPVICYHRTQE*");
     }
-    
+
+/**
+ * 
+ * @param proSequ
+ * @return 
+ */    
     public static Collection getORFs(ProteinSequence proSequ){
        ArrayList<String>output = new ArrayList<>();
        
@@ -61,9 +93,7 @@ public class OpenReadingFrame extends ProteinSequence{
        
        return output;
     }
-    public String getContent(){
-        return content;
-    }
+    
     
 
     
