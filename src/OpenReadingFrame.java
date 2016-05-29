@@ -1,4 +1,3 @@
-import java.io.IOException;
 import java.util.*;
 
 /**
@@ -33,26 +32,11 @@ public class OpenReadingFrame extends ProteinSequence{
  * with a &gt;
  * @param content the main body of the sequence containing only valid amino acid
  * codes including the stop code
- * @throws InvalidSequenceException if an invalid protein code is added then this
- * exception will be thrown
  */    
-    OpenReadingFrame(String description, String content) throws InvalidSequenceException{
+    OpenReadingFrame(String description, String content){
         super(description,content);
         this.content = content;
         this.description = description;
-        /*
-        try{
-            this.content = content;
-            this.description = description;
-            if (content.charAt(0) != 'M' || content.charAt(content.length()-1) != '*'){
-                throw new InvalidSequenceException(content,0);
-            }
-        }
-            catch(InvalidSequenceException e){
-                System.err.println(e);
-                System.exit(1);
-            }
-        */
     }
     
 /**
@@ -64,7 +48,6 @@ public class OpenReadingFrame extends ProteinSequence{
     }
 
 /**
- * 
  * This method takes a protein Sequence object and finds all of the open reading
  * frames starting at the 'M' character and finishing at the '*' It will then order
  * the frames from biggest to smallest in an ArrayList of strings
@@ -96,10 +79,7 @@ public class OpenReadingFrame extends ProteinSequence{
        
       StringLengthListSort ss = new StringLengthListSort();
       Collections.sort(output,ss);
-       
-       
+             
        return output;
     }
-    
-
 }

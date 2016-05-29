@@ -37,25 +37,21 @@ public abstract class Sequence {
  * object from that file, requires the file to be in a FASTA format
  * @param filename full filename of the file including dir if in a different directory
  * with the extension eg .txt .doc etc
- * @throws IOException If the file is not able to be read from this error will be thrown
- * @throws InvalidSequenceException If the file finds a character that is not valid
- * in the sequence this will be thrown
  */    
-    Sequence(String filename) throws IOException, InvalidSequenceException{
+    Sequence(String filename){
         try{
             content = getContent(filename);
             description = getDescription(filename);
             content = content.toUpperCase();
             validate(validLetters());
         }
-        catch(IOException e){
-            System.err.println(e);
+        catch(IOException ex){
+            System.err.println(ex);
         }
         catch(InvalidSequenceException e){
             System.err.println(e);
         }
     }
-
 
 /**
  * return the description of the object in FASTA format starting with a &gt;
@@ -101,10 +97,8 @@ public abstract class Sequence {
         for(int i = 0; i < contentList.size(); i++){
             if(!validLetters.contains(iterateValid.next())){
                 throw new InvalidSequenceException(content,i);
-            }
-                
+            }                
         }  
-
     }
 
 /**
@@ -133,9 +127,8 @@ public abstract class Sequence {
  * method to write the sequence description and content to a chosen filename
  * @param filename accepts a filename or full dir path, written as a string with the 
  * correct suffix .txt .doc etc
- * @throws IOException thrown if a write error is found
  */    
-    public void writeToFile(String filename) throws IOException{
+    public void writeToFile(String filename){
         PrintWriter out = null;
         
         try{
@@ -233,10 +226,10 @@ public abstract class Sequence {
         else{
             return body;
         }
-
     }
+    
 /**
- * Takes a String and changes it to a collection, this is currently used for
+ * protected class that takes a String and changes it to a collection, this is currently used for
  * the validation processes to make updating easy
  * @param convertString string of characters required to be used for validation
  * @return validLetters an ArrayList of strings containing each valid letter
@@ -249,6 +242,5 @@ public abstract class Sequence {
             validLetters.add(convertString.substring(i, i+1));
         }
         return validLetters;
-    }
-    
+    }    
 }

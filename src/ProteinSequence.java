@@ -19,11 +19,8 @@ public class ProteinSequence extends Sequence {
  * Creates a new protein object from a specific file
  * @param filename absolute filename required to build the new protein object from
  * requires full dir path if not in current directory with file extension .txt .doc etc
- * @throws IOException If a read error is encountered exception is thrown
- * @throws InvalidSequenceException if the file has an invalid character for a
- * protein it will cause this error to be thrown
  */    
-    public ProteinSequence(String filename) throws IOException, InvalidSequenceException{
+    public ProteinSequence(String filename){
         super(filename);
     }
     
@@ -34,9 +31,7 @@ public class ProteinSequence extends Sequence {
     public Collection validLetters(){
         return convertString("GALMFWKSNDPVICYHRTQE");
     }
-    
-
-    
+        
 /**
  * static method that accepts the protein single character code to return the three
  * letter code
@@ -53,8 +48,7 @@ public class ProteinSequence extends Sequence {
         Map<String,String>protienMap = new HashMap<>(20);
         for(int i = 0; i < proCodes.length;i++){
             protienMap.put(proCodes[i], threeLetters[i]);
-        }
-        
+        }        
         return protienMap.get(aaCode);
     }
     

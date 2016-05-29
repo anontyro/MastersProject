@@ -38,10 +38,6 @@ public class Test {
         }
         catch(IOException e){
             System.err.println(e);
-        } catch (InvalidSequenceException ex) {
-            System.err.println(ex);
-        }
-        
-    }
-    
+        }        
+    }   
 }

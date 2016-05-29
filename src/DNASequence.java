@@ -26,11 +26,8 @@ public class DNASequence extends Sequence {
      * and content
      * @param filename requires the absolute filename of given file and if required its
      * full dir listing, will end in a valid extension .txt .doc etc
-     * @throws IOException thrown if file read error
-     * @throws InvalidSequenceException will be thrown if the content of the file
-     * contains illegal characters not represented in a DNA sequence
      */
-    public DNASequence(String filename) throws IOException, InvalidSequenceException{
+    public DNASequence(String filename){
         super(filename);
     }
     
@@ -83,7 +80,5 @@ public class DNASequence extends Sequence {
         DNASequence dnaSequ;
         dnaSequ = new DNASequence(getDescription(filename),getContent(filename));
         return dnaSequ;
-    }
-
-    
+    }    
 }

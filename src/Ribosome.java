@@ -54,31 +54,48 @@ public class Ribosome{
        
         return frame(dnaIn);
     }
+/**
+ * A simple translation method that will only translate one frame
+ * @param newDNA DNASequence object taken to be transcribed
+ * @param readFrame The frame which the user wants to translate in a number where 0
+ * is the first and 2 is the third frame
+ * @return a string Array of the first translated frame
+ */    
+    public static String[] oneFrameTranslate(DNASequence newDNA, int readFrame){
+        String dnaIn = newDNA.getContent();
+        
+        return frame(dnaIn,readFrame);
+    }
     
-    private Collection frame(String dna, int readFrame, boolean reverse){
+    private static String[] frame(String dna, int readFrame){
         ArrayList<String>frameOut = new ArrayList<>(20);
         ArrayList<String>dnaIn = new ArrayList<>(20);
         String codon = "";
         
         
-        for(int i = 0; i <dna.length();i+=3){
+        for(int i = 0; i <dna.length()-2;i+=3){
             dnaIn.add(dna.substring(i, i+3));
         }
         Iterator<String> iterateRibo = dnaIn.iterator();
         
-        
-        
-        for(int i = readFrame; i < dnaIn.size() ;i++){ 
-            if (translationTable.containsKey(iterateRibo.next())){
-                frameOut.add(whatProtein(dnaIn.get(i)));
+        try{
+            for(int i = readFrame; i < dnaIn.size() ;i++){ 
+                if (translationTable.containsKey(iterateRibo.next())){
+                    frameOut.add(whatProtein(dnaIn.get(i)));
+                }
+                else{
+                    throw new InvalidSequenceException(dna,i);
+                }            
             }
-            else{
-                frameOut.add("False");
-            }
-            
+        }
+        catch(InvalidSequenceException e){
+            System.err.println(e);
         }
         
-        return frameOut;
+        String[]outputArray = new String[frameOut.size()];
+        outputArray = frameOut.toArray(outputArray);
+        
+        return outputArray;
     }
     
     private static String whatProtein(String dnaIn){
@@ -101,16 +118,22 @@ public class Ribosome{
         }
                 
         Iterator<String> iterateRibo = input.iterator();
-        
-        for(int i = 0; i <input.size();i++){
-            if(translationTable.containsKey(iterateRibo.next())){
-                out.add(whatProtein(input.get(i)));
-                out.add(whatProtein(inRev.get(i)));
-            }
-            else{
-                out.add("Error");
+        try{
+            for(int i = 0; i <input.size();i++){
+                if(translationTable.containsKey(iterateRibo.next())){
+                    out.add(whatProtein(input.get(i)));
+                    out.add(whatProtein(inRev.get(i)));
+                }
+                else{
+                    throw new InvalidSequenceException(dna,i);
+
+                }
             }
         }
+        catch(InvalidSequenceException e){
+                System.err.print(e);
+        }
+        
         input.clear();
         inRev.clear();
 
@@ -126,13 +149,8 @@ public class Ribosome{
         String[]outputArray = new String[orderedOut.size()];
         outputArray = orderedOut.toArray(outputArray);
         
-
-
-        
         return outputArray;
     }
-
-
 }
 
 
