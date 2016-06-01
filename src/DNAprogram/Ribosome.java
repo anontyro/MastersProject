@@ -1,3 +1,5 @@
+package DNAprogram;
+
 import java.util.*;
 /**
  * simple class for Ribosome that creates several static methods to be used with

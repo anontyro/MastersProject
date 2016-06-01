@@ -1,3 +1,5 @@
+package DNAprogram;
+
 import java.util.*;
 
 /**

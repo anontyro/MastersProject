@@ -1,3 +1,5 @@
+package DNAprogram;
+
 /**
  * Custom exception class that check the input sequence and prints the message
  * Invalid sequence: + the string up to the error
