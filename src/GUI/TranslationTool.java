@@ -15,6 +15,8 @@ public class TranslationTool extends QuitableJFrame implements ActionListener{
     TranslationTool(){
         super("Translation", 500, 500);
         
+        this.setLocationRelativeTo(null);
+        
         //sets the layout for the frame overall this is currently to BorderLayout
         this.getContentPane().setLayout(new BorderLayout());
         

@@ -21,6 +21,8 @@ public class QuitableJFrame extends JFrame implements WindowListener{
             this.setSize(xpixels, ypixels);
         }
         this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        
+        //this.setLocation(null);
     }
     
     
