@@ -19,10 +19,10 @@ public class InformationPanel extends JPanel{
         this.add(new JLabel("Sequence description"));
         this.add(new JLabel("Status: "));
         
-        this.add(inputDNA = new JTextField("Enter the sequence name"));
+        this.add(inputDNA = new JTextField());
         inputDNA.grabFocus();
         
-        this.add(statusMessage = new JTextField());
+        this.add(statusMessage = new JTextField("ready"));
         statusMessage.setEditable(false);
         statusMessage.setAutoscrolls(true);
    

@@ -238,11 +238,11 @@ public abstract class Sequence {
  * to be used by validate
  */    
         protected Collection convertString(String convertString){
-        ArrayList<String>validLetters = new ArrayList<>();
-       
-        for(int i=0;i< convertString.length();i++){
-            validLetters.add(convertString.substring(i, i+1));
-        }
-        return validLetters;
+            ArrayList<String>validLetters = new ArrayList<>();
+
+            for(int i=0;i< convertString.length();i++){
+                validLetters.add(convertString.substring(i, i+1));
+            }
+            return validLetters;
     }    
 }

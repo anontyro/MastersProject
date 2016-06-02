@@ -1,6 +1,5 @@
 package GUI;
 
-import DNAprogram.*;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
@@ -19,13 +18,19 @@ public class TranslationTool extends QuitableJFrame implements ActionListener{
         
         //sets the layout for the frame overall this is currently to BorderLayout
         this.getContentPane().setLayout(new BorderLayout());
+
         
         //constructs the InformationPanel object for use
         InformationPanel infoPanel = new InformationPanel();
         // creates the middle panel for input and output
         TranslationPanel inOutPanel = new TranslationPanel();
+
+        
+        Translator trans = new Translator(this,infoPanel,inOutPanel);
+        
         //creates the bottom button panel
-        ControlPanel buttonPanel = new ControlPanel();
+        ControlPanel buttonPanel = new ControlPanel(trans);
+ 
         
         this.getContentPane().add(infoPanel, BorderLayout.NORTH);
         this.getContentPane().add(inOutPanel, BorderLayout.CENTER);

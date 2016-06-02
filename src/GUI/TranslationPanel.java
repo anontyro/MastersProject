@@ -1,5 +1,6 @@
 package GUI;
 
+import DNAprogram.InvalidSequenceException;
 import java.awt.*;
 import javax.swing.*;
 
@@ -21,22 +22,33 @@ public class TranslationPanel extends JPanel{
         
         this.add(scrollbar1); */
         
-        this.add(dnaSequ = new JTextArea("Input", 15, 20));
+        this.add(dnaSequ = new JTextArea("Enter sequence here", 15, 20));
         dnaSequ.setLineWrap(true);
         dnaSequ.setColumns(10);
         dnaSequ.setAutoscrolls(true);
         
         this.add(functionOut = new JTextArea("output", 15, 20));
+        functionOut.setLineWrap(true);
+        functionOut.setAutoscrolls(true);
 
-
-    
     }
     
     public String getInput(){
-        return dnaSequ.toString();
+        return dnaSequ.getText();
     }
     
     public void setOutput(String output){
-        functionOut.setText(output);
+        String funOutput = "";
+        if(functionOut.getText().equals("output")){
+            functionOut.setText(null);
+        }
+        funOutput += functionOut.getText() + "\n" +output;
+        functionOut.setText(funOutput);
+    }
+    public void setInput(String input){
+        dnaSequ.setText(input);
+    }
+    public void clearOutput(){
+        functionOut.setText("output");
     }
 }

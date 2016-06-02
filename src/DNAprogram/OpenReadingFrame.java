@@ -35,7 +35,7 @@ public class OpenReadingFrame extends ProteinSequence{
  * @param content the main body of the sequence containing only valid amino acid
  * codes including the stop code
  */    
-    OpenReadingFrame(String description, String content){
+    public OpenReadingFrame(String description, String content){
         super(description,content);
         this.content = content;
         this.description = description;
