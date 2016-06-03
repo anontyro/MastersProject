@@ -18,7 +18,9 @@ public class TranslationTool extends QuitableJFrame implements ActionListener{
         
         //sets the layout for the frame overall this is currently to BorderLayout
         this.getContentPane().setLayout(new BorderLayout());
-
+        
+        //create menubar
+        this.setUpMenubar();
         
         //constructs the InformationPanel object for use
         InformationPanel infoPanel = new InformationPanel();
@@ -41,10 +43,56 @@ public class TranslationTool extends QuitableJFrame implements ActionListener{
         this.setVisible(true);
 
     }
+    
+    private void setUpMenubar(){
+        //new menubar
+        JMenuBar theBar = new JMenuBar();
+        //create a new menu under "File"
+        JMenu fileMenu = new JMenu("File");
+        //content of "file" menu
+        JMenuItem newItem = new JMenuItem("New");
+        JMenuItem openItem = new JMenuItem("Open file");
+        JMenuItem saveItem = new JMenuItem("Save file");
+        JMenuItem saveasItem = new JMenuItem("Save as");
+        JMenuItem quitItem = new JMenuItem("Quit");
+        
+        //create new menu under "Edit"
+        JMenu editMenu = new JMenu("Edit");
+        //content of "edit menu
+        JMenuItem copyItem = new JMenuItem("Copy to clipboard");
+        
+        //build filemenu
+        fileMenu.add(newItem);
+        newItem.addActionListener(this);
+       
+        fileMenu.add(openItem);
+        openItem.addActionListener(this);
+       
+        fileMenu.add(saveItem);
+        saveItem.addActionListener(this);
+       
+        fileMenu.add(saveasItem);
+        saveasItem.addActionListener(this);
+        
+        fileMenu.add(quitItem);
+        quitItem.addActionListener(this);
+        
+        theBar.add(fileMenu);
+        
+        //build edit menu
+        editMenu.add(copyItem);
+        editMenu.addActionListener(this);
+       
+        theBar.add(editMenu);
+        
+        this.setJMenuBar(theBar);
+    }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        String command = e.getActionCommand();
+        
+       this.quitOrCancel();
     }
     
     

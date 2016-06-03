@@ -2,13 +2,15 @@ package GUI;
 
 import DNAprogram.InvalidSequenceException;
 import java.awt.*;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import javax.swing.*;
 
 /**
  *
  * @author Alex
  */
-public class TranslationPanel extends JPanel{
+public class TranslationPanel extends JPanel implements FocusListener{
     
     private JTextArea dnaSequ, functionOut;
     
@@ -22,7 +24,8 @@ public class TranslationPanel extends JPanel{
         
         this.add(scrollbar1); */
         
-        this.add(dnaSequ = new JTextArea("Enter sequence here", 15, 20));
+        this.add(dnaSequ = new JTextArea("", 15, 20));
+        dnaSequ.addFocusListener(this);
         dnaSequ.setLineWrap(true);
         dnaSequ.setColumns(10);
         dnaSequ.setAutoscrolls(true);
@@ -50,5 +53,19 @@ public class TranslationPanel extends JPanel{
     }
     public void clearOutput(){
         functionOut.setText("output");
+    }
+
+    @Override
+    public void focusGained(FocusEvent e) {
+        if((dnaSequ.getText()).equals("Enter sequence here") == true){
+            dnaSequ.setText("");
+        }
+    }
+
+    @Override
+    public void focusLost(FocusEvent e) {
+        if((dnaSequ.getText()).equals("") == true){
+            dnaSequ.setText("Enter sequence here");
+        }
     }
 }
