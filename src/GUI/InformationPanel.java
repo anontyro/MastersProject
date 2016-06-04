@@ -36,4 +36,8 @@ public class InformationPanel extends JPanel{
         statusMessage.setText(message);
     }
     
+    public void setSequenceDescription(String name){
+        inputDNA.setText(name);
+    }
+    
 }

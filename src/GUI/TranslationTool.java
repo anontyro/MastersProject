@@ -3,6 +3,8 @@ package GUI;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+import DNAprogram.*;
+import java.io.*;
 
 
 /**
@@ -10,6 +12,11 @@ import javax.swing.*;
  * @author Alex
  */
 public class TranslationTool extends QuitableJFrame implements ActionListener{
+    
+     //constructs the InformationPanel object for use
+    private InformationPanel infoPanel = new InformationPanel();
+        // creates the middle panel for input and output
+    private TranslationPanel inOutPanel = new TranslationPanel();
     
     TranslationTool(){
         super("Translation", 500, 500);
@@ -22,10 +29,8 @@ public class TranslationTool extends QuitableJFrame implements ActionListener{
         //create menubar
         this.setUpMenubar();
         
-        //constructs the InformationPanel object for use
-        InformationPanel infoPanel = new InformationPanel();
-        // creates the middle panel for input and output
-        TranslationPanel inOutPanel = new TranslationPanel();
+        
+        
 
         
         Translator trans = new Translator(this,infoPanel,inOutPanel);
@@ -51,8 +56,8 @@ public class TranslationTool extends QuitableJFrame implements ActionListener{
         JMenu fileMenu = new JMenu("File");
         //content of "file" menu
         JMenuItem newItem = new JMenuItem("New");
-        JMenuItem openItem = new JMenuItem("Open file");
-        JMenuItem saveItem = new JMenuItem("Save file");
+        JMenuItem openItem = new JMenuItem("Open");
+        JMenuItem saveItem = new JMenuItem("Save");
         JMenuItem saveasItem = new JMenuItem("Save as");
         JMenuItem quitItem = new JMenuItem("Quit");
         
@@ -91,18 +96,79 @@ public class TranslationTool extends QuitableJFrame implements ActionListener{
     @Override
     public void actionPerformed(ActionEvent e) {
         String command = e.getActionCommand();
+        JFileChooser fc = new JFileChooser();
+ 
         
         if(command.equals("New")){
             
         }
-        else if(command.equals("Open file")){
+        else if(command.equals("Open")){
+;
+            fc.setDialogTitle("Import");
+            if(fc.showOpenDialog(this) == JFileChooser.APPROVE_OPTION){
+                
+            }
+            if(fc.getSelectedFile().canRead()){
+                if(fc.getSelectedFile().canWrite()){
+                    try{                       
+                        String content = (String)Sequence.getContent(fc.getSelectedFile().getAbsolutePath());
+                        inOutPanel.setInput(content);
+                        
+                        String descrip = (String)Sequence.getDescription(fc.getSelectedFile().getAbsolutePath());
+                        infoPanel.setSequenceDescription(descrip);
+                        
+                        
+                    }
+                    catch(IOException ioE){
+                        this.tellUser(ioE.getMessage());
+                    }
+                }
+                
+            }
+            else{
+                this.tellUser("Error file cannot be read to or written to!");
+            }
+            
             
         }
-        else if(command.equals("Save file")){
-            
+        else if(command.equals("Save")){
+            String name = infoPanel.getSequenceDescription();
+            File f = new File(name +".txt");
+            if(f.exists()){
+                
+            }
         }
         else if(command.equals("Save as")){
+            fc.setDialogTitle("Save as");
+            if(fc.showSaveDialog(this) == JFileChooser.APPROVE_OPTION){
+                
+            }
             
+            PrintWriter out = null;
+            try{
+                String content = inOutPanel.getOutput();
+                String descrip = infoPanel.getSequenceDescription();
+                
+                File outFile = new File(fc.getSelectedFile()+".txt");
+                
+                FileWriter fout = new FileWriter(outFile);
+                BufferedWriter bout = new BufferedWriter(fout);
+                out = new PrintWriter(bout);
+                
+                out.println(descrip);
+                out.println(content);
+                out.close();
+                
+                this.tellUser("Saved " +descrip + " to " +fc.getSelectedFile() +
+                        ".txt");
+                
+            }
+            catch(IOException ioException){
+                this.tellUser(ioException.getMessage());
+            }
+            finally{
+                if(out !=null){out.close();}
+            }
         }
         else{
             this.quitOrCancel();

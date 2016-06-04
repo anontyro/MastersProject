@@ -40,6 +40,10 @@ public class TranslationPanel extends JPanel implements FocusListener{
         return dnaSequ.getText();
     }
     
+    public String getOutput(){
+        return functionOut.getText();
+    }
+    
     public void setOutput(String output){
         String funOutput = "";
         if(functionOut.getText().equals("output")){

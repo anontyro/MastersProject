@@ -12,7 +12,7 @@ import java.io.*;
 
 public abstract class Sequence {
     private String description = "";
-    private String content = "";
+    private static String content = "";
      
 /**
  * Constructor that takes two Strings to create a new sequence object, will throw
@@ -75,7 +75,7 @@ public abstract class Sequence {
  * Method to check how long the content is in the file
  * @return will Return the total length of the main file content
  */    
-    public int getLength(){
+    public static int getLength(){
         return content.length();
     }
 
@@ -87,7 +87,7 @@ public abstract class Sequence {
  * @throws InvalidSequenceException if the letters are not correctly validated 
  * this exception is thrown showing the problematic string
  */    
-    public void validate(Collection<String>validLetters) throws InvalidSequenceException {
+    public static void validate(Collection<String>validLetters) throws InvalidSequenceException {
         ArrayList<String>contentList = new ArrayList<>();
         
         for(int i = 0 ; i < getLength() ; i++){
@@ -101,6 +101,28 @@ public abstract class Sequence {
                 throw new InvalidSequenceException(content,i);
             }                
         }  
+    }
+    
+/**
+ * accepts validLetters() and checks to see if they are valid, will return boolean
+ * @param validLetters
+ * @return boolean true if valid false if invalid
+ */    
+    public static boolean isValid(Collection<String>validLetters){
+        ArrayList<String>contentList = new ArrayList<>();
+        
+        for(int i = 0 ; i < getLength() ; i++){
+            contentList.add(content.substring(i, i+1));           
+        }
+        
+        Iterator<String> iterateValid = contentList.iterator();
+
+        for(String x:contentList){
+            if(!validLetters.contains(iterateValid.next())){
+                return false;
+            }                
+        }  
+        return true;
     }
 
 /**
