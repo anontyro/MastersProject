@@ -92,7 +92,22 @@ public class TranslationTool extends QuitableJFrame implements ActionListener{
     public void actionPerformed(ActionEvent e) {
         String command = e.getActionCommand();
         
-       this.quitOrCancel();
+        if(command.equals("New")){
+            
+        }
+        else if(command.equals("Open file")){
+            
+        }
+        else if(command.equals("Save file")){
+            
+        }
+        else if(command.equals("Save as")){
+            
+        }
+        else{
+            this.quitOrCancel();
+        }
+        
     }
     
     
