@@ -100,7 +100,10 @@ public class TranslationTool extends QuitableJFrame implements ActionListener{
  
         
         if(command.equals("New")){
-            
+            inOutPanel.clearOutput();
+            inOutPanel.setInput("");
+            infoPanel.setSequenceDescription("");
+            infoPanel.setStatusMessage("All data cleared");
         }
         else if(command.equals("Open")){
 ;
@@ -128,13 +131,15 @@ public class TranslationTool extends QuitableJFrame implements ActionListener{
             else{
                 this.tellUser("Error file cannot be read to or written to!");
             }
-            
+            infoPanel.setStatusMessage(fc.getSelectedFile() + ".txt" +" file loaded");
             
         }
         else if(command.equals("Save")){
             String name = infoPanel.getSequenceDescription();
+            name = name.trim();
+            name = name.replaceAll("\\s", "_");
             File f = new File(name +".txt");
-            if(f.exists()){
+            if(f.exists() == true){
                 
             }
         }
@@ -143,13 +148,22 @@ public class TranslationTool extends QuitableJFrame implements ActionListener{
             if(fc.showSaveDialog(this) == JFileChooser.APPROVE_OPTION){
                 
             }
-            
+            toFile(fc.getSelectedFile()+".txt");
+        }
+        else{
+            this.quitOrCancel();
+        }
+        
+    }
+    
+    public void toFile(String filename){
+        
             PrintWriter out = null;
             try{
                 String content = inOutPanel.getOutput();
                 String descrip = infoPanel.getSequenceDescription();
                 
-                File outFile = new File(fc.getSelectedFile()+".txt");
+                File outFile = new File(filename);
                 
                 FileWriter fout = new FileWriter(outFile);
                 BufferedWriter bout = new BufferedWriter(fout);
@@ -159,8 +173,8 @@ public class TranslationTool extends QuitableJFrame implements ActionListener{
                 out.println(content);
                 out.close();
                 
-                this.tellUser("Saved " +descrip + " to " +fc.getSelectedFile() +
-                        ".txt");
+                this.tellUser("Saved " +descrip + " to " +filename);
+                infoPanel.setStatusMessage("File saved as " +filename);
                 
             }
             catch(IOException ioException){
@@ -169,10 +183,6 @@ public class TranslationTool extends QuitableJFrame implements ActionListener{
             finally{
                 if(out !=null){out.close();}
             }
-        }
-        else{
-            this.quitOrCancel();
-        }
         
     }
     
