@@ -11,7 +11,7 @@ import java.io.*;
  *
  * @author Alex
  */
-public class TranslationTool extends QuitableJFrame implements ActionListener{
+public class TranslationTool extends QuitableJFrame{
     
      //constructs the InformationPanel object for use
     private InformationPanel infoPanel = new InformationPanel();
@@ -26,10 +26,14 @@ public class TranslationTool extends QuitableJFrame implements ActionListener{
         //sets the layout for the frame overall this is currently to BorderLayout
         this.getContentPane().setLayout(new BorderLayout());
         
-        //create menubar
-        this.setUpMenubar();
         
         Translator trans = new Translator(this,infoPanel,inOutPanel);
+        MenuBar menu = new MenuBar(this,infoPanel,inOutPanel);
+        
+
+        
+        //creates menubar
+        this.setUpMenubar(menu);
         
         //creates the bottom button panel
         ControlPanel buttonPanel = new ControlPanel(trans);
@@ -45,7 +49,8 @@ public class TranslationTool extends QuitableJFrame implements ActionListener{
 
     }
     
-    private void setUpMenubar(){
+    private void setUpMenubar(MenuBar menu){
+
         //new menubar
         JMenuBar theBar = new JMenuBar();
         //create a new menu under "File"
@@ -66,43 +71,46 @@ public class TranslationTool extends QuitableJFrame implements ActionListener{
         
         //build filemenu
         fileMenu.add(newItem);
-        newItem.addActionListener(this);
+        newItem.addActionListener(menu);
        
         fileMenu.add(openItem);
-        openItem.addActionListener(this);
+        openItem.addActionListener(menu);
        
         fileMenu.add(saveItem);
-        saveItem.addActionListener(this);
+        saveItem.addActionListener(menu);
        
         fileMenu.add(saveasItem);
-        saveasItem.addActionListener(this);
+        saveasItem.addActionListener(menu);
         
         fileMenu.add(saveInItem);
-        saveInItem.addActionListener(this);
+        saveInItem.addActionListener(menu);
         
         fileMenu.add(saveasInItem);
-        saveasInItem.addActionListener(this);
+        saveasInItem.addActionListener(menu);
         
         fileMenu.add(quitItem);
-        quitItem.addActionListener(this);
+        quitItem.addActionListener(menu);
         
         theBar.add(fileMenu);
         
         //build edit menu
         editMenu.add(copyItem);
-        editMenu.addActionListener(this);
+        editMenu.addActionListener(menu);
        
         theBar.add(editMenu);
         
         this.setJMenuBar(theBar);
     }
+    
 
-    @Override
+/*    @Override
     public void actionPerformed(ActionEvent e) {
         String command = e.getActionCommand();
         JFileChooser fc = new JFileChooser();
- 
-        
+        File fd = new File(System.getProperty("user.dir"));
+        fc.setCurrentDirectory(fd);
+        String userDir = System.getProperty("user.dir") +"\\";
+       
         if(command.equals("New")){
             inOutPanel.clearOutput();
             inOutPanel.setInput("");
@@ -110,6 +118,9 @@ public class TranslationTool extends QuitableJFrame implements ActionListener{
             infoPanel.setStatusMessage("All data cleared");
         }
         else if(command.equals("Open")){
+            inOutPanel.clearOutput();
+            inOutPanel.setInput("");
+            infoPanel.setSequenceDescription("");
 ;
             fc.setDialogTitle("Import");
             if(fc.showOpenDialog(this) == JFileChooser.APPROVE_OPTION){
@@ -117,7 +128,7 @@ public class TranslationTool extends QuitableJFrame implements ActionListener{
             }
             if(fc.getSelectedFile().canRead()){
                 if(fc.getSelectedFile().canWrite()){
-                    try{                       
+                    try{
                         String content = (String)Sequence.getContent(fc.getSelectedFile().getAbsolutePath());
                         inOutPanel.setInput(content);
                         
@@ -140,27 +151,44 @@ public class TranslationTool extends QuitableJFrame implements ActionListener{
             String name = infoPanel.getSequenceDescription();
             name = name.trim();
             name = name.replaceAll("\\s", "_");
-            File f = new File(name +".txt");
+            name = name.replaceAll(">", "");
+            name = userDir+ name +"-output";
+            File f = new File(name+".txt");
             if(f.exists() == true){
-                saveOrCancel(name);
+                saveOrCancel(name,"output");
             }
             else{
-                toFile(name+".txt");
+                toFile(name,"output");
             }
         }
         else if(command.equals("Save output as")){
             fc.setDialogTitle("Save output as");
+            
             if(fc.showSaveDialog(this) == JFileChooser.APPROVE_OPTION){
-                
+                toFile(fc.getSelectedFile().toString(),"output");
             }
-            toFile(fc.getSelectedFile()+".txt");
+            
         }
         else if(command.equals("Save input")){
-                    
-                
+            String name = infoPanel.getSequenceDescription();
+            name = name.trim();
+            name = name.replaceAll("\\s", "_");
+            name = name.replaceAll(">", "");
+            name = userDir+ name +"-input";
+            File f = new File(name+".txt");
+            if(f.exists() == true){
+                saveOrCancel(name,"input");
+            }
+            else{
+                toFile(name,"input");
+            }
+            
         }
         else if(command.equals("Save input as")){
-            
+            fc.setDialogTitle("Save input as");
+            if(fc.showSaveDialog(this) == JFileChooser.APPROVE_OPTION){
+                toFile(fc.getSelectedFile().toString(),"input");
+            }
         }
         else{
             this.quitOrCancel();
@@ -169,14 +197,23 @@ public class TranslationTool extends QuitableJFrame implements ActionListener{
         
     }
     
-    public void toFile(String filename){
+    public void toFile(String filename, String inORout){
+        String content ="";
+        String descrip = infoPanel.getSequenceDescription();
         
             PrintWriter out = null;
             try{
-                String content = inOutPanel.getOutput();
-                String descrip = infoPanel.getSequenceDescription();
-                
-                File outFile = new File(filename);
+                if(inORout.equals("output")){
+                    content = inOutPanel.getOutput();
+
+                }
+                else if(inORout.equals("input")){
+                   content = inOutPanel.getInput();
+                }
+                else{
+                    this.tellUser("Error could not find correct inORout command");
+                }
+                File outFile = new File(filename +".txt");
                 
                 FileWriter fout = new FileWriter(outFile);
                 BufferedWriter bout = new BufferedWriter(fout);
@@ -199,17 +236,16 @@ public class TranslationTool extends QuitableJFrame implements ActionListener{
         
     }
     
-        public void saveOrCancel(String name){
-        name = name +".txt ";
+        public void saveOrCancel(String name, String inORout){
         int result = JOptionPane.showConfirmDialog(this, "File " +name +
-                "already exists save?", "File overwritten",
+                ".txt already exists save?", "File overwritten",
                 JOptionPane.YES_NO_OPTION);
         
         if(result == JOptionPane.YES_OPTION){
-            toFile(name);
+            toFile(name,inORout);
         }
         
-    }
+    }*/
     
     
     public static void main(String[] args){

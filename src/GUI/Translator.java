@@ -49,21 +49,22 @@ public class Translator implements ActionListener{
             
             //control structure to dictate what each button does
             if(command.equals("Reverse Comp")){
-                if(validateSeq("ATGC") == false){
+                seq = new DNASequence(sequDesc,sequBody);
+                seq = seq.revComp();
+                if(seq.validateSeq("ATGC",sequBody) == false){
                     transTool.tellUser("Sequence can only contain ATGC");
                 }
                 else{
-                    seq = new DNASequence(sequDesc,sequBody);
-                    seq = seq.revComp();
+
                     translatePan.setOutput(seq.getContent());            
                 }
             }
             else if(command.equals("Simple Translation")){
-                if(validateSeq("ATGC") == false){
+                seq = new DNASequence(sequDesc,sequBody);
+                if(seq.validateSeq("ATGC",sequBody) == false){
                     transTool.tellUser("Sequence can only contain ATGC");
                 }
                 else{
-                    seq = new DNASequence(sequDesc,sequBody);
                     String[]sequence = Ribosome.oneFrameTranslate(seq, 0);
                     for(String x:sequence){
                         output +=x;
@@ -72,11 +73,12 @@ public class Translator implements ActionListener{
                 }
             }
             else if(command.equals("Six frame translation")){
-                if(validateSeq("ATGC")==false){
+                seq = new DNASequence(sequDesc,sequBody);
+                if(seq.validateSeq("ATGC",sequBody)==false){
                     transTool.tellUser("Sequence can only contain ATGC");
                 }
                 else{
-                    seq = new DNASequence(sequDesc,sequBody);
+
                     String[]sequence = Ribosome.translateDNA(seq);
                     for(String x:sequence){
                         output +=x;
@@ -85,14 +87,14 @@ public class Translator implements ActionListener{
                 }
             }
             else if(command.equals("Get ORF")){
-                if(validateSeq("GALMFWKSNDPVICYHRTQE*")==false){
+                orfSeq = new OpenReadingFrame(sequDesc,sequBody);
+                if(orfSeq.validateSeq("GALMFWKSNDPVICYHRTQE*",sequBody)==false){
                     transTool.tellUser("Sequence must be a valid protien"
                             + "sequence containing: \n"
                             + "GALMFWKSNDPVICYHRTQE*");
                 }
                 else{
-                    ArrayList<String>sequence;
-                    orfSeq = new OpenReadingFrame(sequDesc,sequBody);
+                    ArrayList<String>sequence;                    
                     sequence = (ArrayList<String>) OpenReadingFrame.getORFs(orfSeq);
                     for(String x:sequence){
                         output+= x + "\n";
@@ -112,11 +114,9 @@ public class Translator implements ActionListener{
         catch(Exception ex){
            transTool.tellUser(ex.getMessage());
         }
-        
-        
-
-        
+                
     }
+    /*
     private boolean validateSeq(String valid){
         sequBody = sequBody.toUpperCase();
         ArrayList<String>validLetters;
@@ -145,5 +145,6 @@ public class Translator implements ActionListener{
             }
             return validLetters;
         }
+    */
     
 }

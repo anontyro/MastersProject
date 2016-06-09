@@ -30,7 +30,6 @@ public abstract class Sequence {
         }
         catch (InvalidSequenceException error){
             System.err.println(error);
-            System.exit(1);
         }
     }
 
@@ -122,6 +121,26 @@ public abstract class Sequence {
                 return false;
             }                
         }  
+        return true;
+    }
+    
+        public boolean validateSeq(String valid, String sequBody){
+        sequBody = sequBody.toUpperCase();
+        ArrayList<String>validLetters;
+        validLetters =(ArrayList<String>) convertString(valid);
+        ArrayList<String>contentList = new ArrayList<>();
+        
+        for(int i = 0; i < sequBody.length();i++){
+            contentList.add(sequBody.substring(i,i+1));
+        }
+        
+        Iterator<String> iterateValid = contentList.iterator();
+        
+        for(int i = 0; i< contentList.size();i++){
+            if(!validLetters.contains(iterateValid.next())){
+                return false;
+            }
+        }
         return true;
     }
 
@@ -266,5 +285,5 @@ public abstract class Sequence {
                 validLetters.add(convertString.substring(i, i+1));
             }
             return validLetters;
-    }    
+    }
 }
