@@ -29,10 +29,6 @@ public class TranslationTool extends QuitableJFrame implements ActionListener{
         //create menubar
         this.setUpMenubar();
         
-        
-        
-
-        
         Translator trans = new Translator(this,infoPanel,inOutPanel);
         
         //creates the bottom button panel
@@ -57,8 +53,10 @@ public class TranslationTool extends QuitableJFrame implements ActionListener{
         //content of "file" menu
         JMenuItem newItem = new JMenuItem("New");
         JMenuItem openItem = new JMenuItem("Open");
-        JMenuItem saveItem = new JMenuItem("Save");
-        JMenuItem saveasItem = new JMenuItem("Save as");
+        JMenuItem saveItem = new JMenuItem("Save output");
+        JMenuItem saveasItem = new JMenuItem("Save output as");
+        JMenuItem saveInItem = new JMenuItem("Save input");
+        JMenuItem saveasInItem = new JMenuItem("Save input as");
         JMenuItem quitItem = new JMenuItem("Quit");
         
         //create new menu under "Edit"
@@ -78,6 +76,12 @@ public class TranslationTool extends QuitableJFrame implements ActionListener{
        
         fileMenu.add(saveasItem);
         saveasItem.addActionListener(this);
+        
+        fileMenu.add(saveInItem);
+        saveInItem.addActionListener(this);
+        
+        fileMenu.add(saveasInItem);
+        saveasInItem.addActionListener(this);
         
         fileMenu.add(quitItem);
         quitItem.addActionListener(this);
@@ -119,14 +123,12 @@ public class TranslationTool extends QuitableJFrame implements ActionListener{
                         
                         String descrip = (String)Sequence.getDescription(fc.getSelectedFile().getAbsolutePath());
                         infoPanel.setSequenceDescription(descrip);
-                        
-                        
+                                                
                     }
                     catch(IOException ioE){
                         this.tellUser(ioE.getMessage());
                     }
-                }
-                
+                }               
             }
             else{
                 this.tellUser("Error file cannot be read to or written to!");
@@ -134,25 +136,36 @@ public class TranslationTool extends QuitableJFrame implements ActionListener{
             infoPanel.setStatusMessage(fc.getSelectedFile() + ".txt" +" file loaded");
             
         }
-        else if(command.equals("Save")){
+        else if(command.equals("Save output")){
             String name = infoPanel.getSequenceDescription();
             name = name.trim();
             name = name.replaceAll("\\s", "_");
             File f = new File(name +".txt");
             if(f.exists() == true){
-                
+                saveOrCancel(name);
+            }
+            else{
+                toFile(name+".txt");
             }
         }
-        else if(command.equals("Save as")){
-            fc.setDialogTitle("Save as");
+        else if(command.equals("Save output as")){
+            fc.setDialogTitle("Save output as");
             if(fc.showSaveDialog(this) == JFileChooser.APPROVE_OPTION){
                 
             }
             toFile(fc.getSelectedFile()+".txt");
         }
+        else if(command.equals("Save input")){
+                    
+                
+        }
+        else if(command.equals("Save input as")){
+            
+        }
         else{
             this.quitOrCancel();
         }
+        
         
     }
     
@@ -183,6 +196,18 @@ public class TranslationTool extends QuitableJFrame implements ActionListener{
             finally{
                 if(out !=null){out.close();}
             }
+        
+    }
+    
+        public void saveOrCancel(String name){
+        name = name +".txt ";
+        int result = JOptionPane.showConfirmDialog(this, "File " +name +
+                "already exists save?", "File overwritten",
+                JOptionPane.YES_NO_OPTION);
+        
+        if(result == JOptionPane.YES_OPTION){
+            toFile(name);
+        }
         
     }
     
