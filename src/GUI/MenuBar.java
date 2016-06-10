@@ -6,12 +6,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
 import javax.swing.*;
+import javax.swing.event.MenuEvent;
+import javax.swing.event.MenuListener;
 
 /**
  *
  * @author Alex
  */
-public class MenuBar implements ActionListener{
+public class MenuBar implements ActionListener, MenuListener{
     
     private InformationPanel infoPanel;
     private TranslationPanel inOutPanel;
@@ -24,10 +26,9 @@ public class MenuBar implements ActionListener{
     private String userDir = System.getProperty("user.dir") +
             System.getProperty("file.separator");
     private static JFileChooser fc = new JFileChooser();
-    private static String opened;
+    private static String saveInput = null;
+    private static String saveOutput = null;
 
-
-    
     public MenuBar(TranslationTool transTool, InformationPanel infoPanel,
             TranslationPanel translatePan){
         
@@ -35,9 +36,7 @@ public class MenuBar implements ActionListener{
         this.transTool = transTool;
         this.inOutPanel = translatePan;
         File fd = new File(System.getProperty("user.dir"));
-        fc.setCurrentDirectory(fd);
-
-        
+        fc.setCurrentDirectory(fd);   
     }
 
     @Override
@@ -51,13 +50,14 @@ public class MenuBar implements ActionListener{
             inOutPanel.setInput("");
             infoPanel.setSequenceDescription("");
             infoPanel.setStatusMessage("All data cleared");
-            opened = null;
+            saveInput = null;
+            saveOutput = null;
         }
         else if(command.equals("Open")){
             inOutPanel.clearOutput();
             inOutPanel.setInput("");
             infoPanel.setSequenceDescription("");
-;
+            saveOutput = null;
             fc.setDialogTitle("Import");
             if(fc.showOpenDialog(transTool) == JFileChooser.APPROVE_OPTION){
 
@@ -69,8 +69,7 @@ public class MenuBar implements ActionListener{
 
                             String descrip = (String)Sequence.getDescription(fc.getSelectedFile().getAbsolutePath());
                             infoPanel.setSequenceDescription(descrip);
-                            opened = fc.getSelectedFile().toString();
-                            System.out.println(opened);
+                            saveInput = fc.getSelectedFile().toString();
                             
                             infoPanel.setStatusMessage(fc.getSelectedFile()+" file loaded");
 
@@ -84,16 +83,15 @@ public class MenuBar implements ActionListener{
                     }
                 }
                 else{
-                    transTool.tellUser("Error file cannot be read to!");
+                    transTool.tellUser("Error file cannot be read from!");
                 }
             }
             else{                
             }
-    
         }
         else if(command.equals("Save output")){
-            if (opened !=null){
-                toFile(opened,"output");
+            if (saveOutput !=null){
+                toFile(saveOutput,"output");
                 infoPanel.setStatusMessage("Saved");
                 }
             else{
@@ -101,7 +99,7 @@ public class MenuBar implements ActionListener{
                 
                 if(fc.showSaveDialog(transTool)== JFileChooser.APPROVE_OPTION){
                     toFile(fc.getSelectedFile().toString(),"output");
-                    opened = fc.getSelectedFile().toString();
+                    saveOutput = fc.getSelectedFile().toString();
                 }
             }
         }
@@ -110,13 +108,12 @@ public class MenuBar implements ActionListener{
             
             if(fc.showSaveDialog(transTool) == JFileChooser.APPROVE_OPTION){
                 toFile(fc.getSelectedFile().toString()+".txt","output");
-            }
-            
+            }    
         }
         else if(command.equals("Save input")){
             
-            if (opened !=null){
-                toFile(opened,"input");
+            if (saveInput !=null){
+                toFile(saveInput,"input");
                 infoPanel.setStatusMessage("Saved");
                 }
             else{
@@ -124,36 +121,20 @@ public class MenuBar implements ActionListener{
                 
                 if(fc.showSaveDialog(transTool)== JFileChooser.APPROVE_OPTION){
                     toFile(fc.getSelectedFile().toString(),"input");
-                    opened = fc.getSelectedFile().toString();
+                    saveInput = fc.getSelectedFile().toString();
                 }
-            }
-            
-            /*
-            String name = infoPanel.getSequenceDescription();
-            name = name.trim();
-            name = name.replaceAll("\\s", "_");
-            name = name.replaceAll(">", "");
-            name = userDir+ name +"-input";
-            File f = new File(name+".txt");
-            if(f.exists() == true){
-                saveOrCancel(name,"input");
-            }
-            else{
-                toFile(name,"input");
-            }
-                    */
-            
+            }    
         }
         else if(command.equals("Save input as")){
             fc.setDialogTitle("Save input as");
             if(fc.showSaveDialog(transTool) == JFileChooser.APPROVE_OPTION){
                 toFile(fc.getSelectedFile().toString()+".txt","input");
+                saveInput = fc.getSelectedFile().toString();
             }
         }
         else{
             transTool.quitOrCancel();
         }
-    
     }
     
     public void toFile(String filename, String inORout){
@@ -192,7 +173,6 @@ public class MenuBar implements ActionListener{
             finally{
                 if(out !=null){out.close();}
             }
-        
     }
     
         public void saveOrCancel(String name, String inORout){
@@ -202,10 +182,22 @@ public class MenuBar implements ActionListener{
         
         if(result == JOptionPane.YES_OPTION){
             toFile(name,inORout);
-        }
-        
+        }   
     }
-        
-        
-    
+
+    @Override
+    public void menuSelected(MenuEvent e) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void menuDeselected(MenuEvent e) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void menuCanceled(MenuEvent e) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+   
 }

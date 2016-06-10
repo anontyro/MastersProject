@@ -54,10 +54,8 @@ public class TranslationPanel extends JPanel implements FocusListener{
     
     public void setOutput(String output){
         String funOutput = "";
-        if(functionOut.getText().equals("output")){
-            functionOut.setText(null);
-        }
         funOutput += functionOut.getText() + "\n" +output;
+        funOutput = funOutput.trim();
         functionOut.setText(funOutput);
     }
     public void setInput(String input){

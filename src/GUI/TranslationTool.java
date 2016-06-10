@@ -56,18 +56,18 @@ public class TranslationTool extends QuitableJFrame{
         //create a new menu under "File"
         JMenu fileMenu = new JMenu("File");
         //content of "file" menu
-        JMenuItem newItem = new JMenuItem("New");
-        JMenuItem openItem = new JMenuItem("Open");
-        JMenuItem saveItem = new JMenuItem("Save output");
-        JMenuItem saveasItem = new JMenuItem("Save output as");
-        JMenuItem saveInItem = new JMenuItem("Save input");
-        JMenuItem saveasInItem = new JMenuItem("Save input as");
-        JMenuItem quitItem = new JMenuItem("Quit");
+        JMenuItem newItem = new JMenuItem("New", new ImageIcon("src\\GUI\\images\\new.png"));
+        JMenuItem openItem = new JMenuItem("Open", new ImageIcon("src\\GUI\\images\\open.png"));
+        JMenuItem saveItem = new JMenuItem("Save output", new ImageIcon("src\\GUI\\images\\save.png"));
+        JMenuItem saveasItem = new JMenuItem("Save output as", new ImageIcon("src\\GUI\\images\\save.png"));
+        JMenuItem saveInItem = new JMenuItem("Save input", new ImageIcon("src\\GUI\\images\\save.png"));
+        JMenuItem saveasInItem = new JMenuItem("Save input as", new ImageIcon("src\\GUI\\images\\save.png"));
+        JMenuItem quitItem = new JMenuItem("Quit", new ImageIcon("src\\GUI\\images\\exit.png"));
         
         //create new menu under "Edit"
         JMenu editMenu = new JMenu("Edit");
         //content of "edit menu
-        JMenuItem copyItem = new JMenuItem("Copy to clipboard");
+        JMenuItem copyItem = new JMenuItem("Copy output to clipboard");
         
         //build filemenu
         fileMenu.add(newItem);
