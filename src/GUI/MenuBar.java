@@ -74,6 +74,8 @@ public class MenuBar implements ActionListener, MenuListener{
                             
                             infoPanel.setStatusMessage(fc.getSelectedFile()+" file loaded");
 
+                            transTool.setTitle("Translation " + fc.getSelectedFile().toString());
+
                         }
                         catch(IOException ioE){
                             transTool.tellUser(ioE.getMessage());
