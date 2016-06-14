@@ -42,6 +42,7 @@ public class MenuBar implements ActionListener, MenuListener{
     @Override
     public void actionPerformed(ActionEvent e) {
         String command = e.getActionCommand();
+        String descrip = infoPanel.getSequenceDescription();
         
         if(command.equals("New")){
             sequBody="";
@@ -67,8 +68,8 @@ public class MenuBar implements ActionListener, MenuListener{
                             String content = (String)Sequence.getContent(fc.getSelectedFile().getAbsolutePath());
                             inOutPanel.setInput(content);
 
-                            String descrip = (String)Sequence.getDescription(fc.getSelectedFile().getAbsolutePath());
-                            infoPanel.setSequenceDescription(descrip);
+                            String description = (String)Sequence.getDescription(fc.getSelectedFile().getAbsolutePath());
+                            infoPanel.setSequenceDescription(description);
                             saveInput = fc.getSelectedFile().toString();
                             
                             infoPanel.setStatusMessage(fc.getSelectedFile()+" file loaded");
@@ -91,15 +92,18 @@ public class MenuBar implements ActionListener, MenuListener{
         }
         else if(command.equals("Save output")){
             if (saveOutput !=null){
-                toFile(saveOutput,"output");
-                infoPanel.setStatusMessage("Saved");
+                String content = inOutPanel.getOutput();
+                Sequence.toFile(saveOutput,"output",descrip,content);
+                infoPanel.setStatusMessage("File saved as " + saveOutput);
                 }
             else{
                 fc.setDialogTitle("Save output as");
                 
                 if(fc.showSaveDialog(transTool)== JFileChooser.APPROVE_OPTION){
-                    toFile(fc.getSelectedFile().toString(),"output");
+                    Sequence.toFile((fc.getSelectedFile().toString()+".txt"),"output",
+                            descrip,inOutPanel.getOutput());
                     saveOutput = fc.getSelectedFile().toString();
+                    infoPanel.setStatusMessage("File saved as " +saveOutput);
                 }
             }
         }
@@ -107,29 +111,36 @@ public class MenuBar implements ActionListener, MenuListener{
             fc.setDialogTitle("Save output as");
             
             if(fc.showSaveDialog(transTool) == JFileChooser.APPROVE_OPTION){
-                toFile(fc.getSelectedFile().toString()+".txt","output");
+                Sequence.toFile((fc.getSelectedFile().toString()+".txt"),"output", 
+                        descrip, inOutPanel.getOutput());
+                saveOutput = fc.getSelectedFile().toString();
+                infoPanel.setStatusMessage("File saved as " +saveOutput);
             }    
         }
         else if(command.equals("Save input")){
             
             if (saveInput !=null){
-                toFile(saveInput,"input");
-                infoPanel.setStatusMessage("Saved");
+                Sequence.toFile(saveInput,"input", descrip, inOutPanel.getInput());
+                infoPanel.setStatusMessage("Saved input as: " +saveInput+".txt");
                 }
             else{
                 fc.setDialogTitle("Save input as");
                 
                 if(fc.showSaveDialog(transTool)== JFileChooser.APPROVE_OPTION){
-                    toFile(fc.getSelectedFile().toString(),"input");
+                    Sequence.toFile((fc.getSelectedFile().toString() + ".txt"),"input",
+                            descrip, inOutPanel.getInput());
                     saveInput = fc.getSelectedFile().toString();
+                    infoPanel.setStatusMessage("File saved as " +saveInput);
                 }
             }    
         }
         else if(command.equals("Save input as")){
             fc.setDialogTitle("Save input as");
             if(fc.showSaveDialog(transTool) == JFileChooser.APPROVE_OPTION){
-                toFile(fc.getSelectedFile().toString()+".txt","input");
+                Sequence.toFile((fc.getSelectedFile().toString()+".txt"),"input",
+                        descrip, inOutPanel.getInput());
                 saveInput = fc.getSelectedFile().toString();
+                infoPanel.setStatusMessage("File saved as " +saveInput);
             }
         }
         else{
@@ -137,6 +148,7 @@ public class MenuBar implements ActionListener, MenuListener{
         }
     }
     
+    /*
     public void toFile(String filename, String inORout){
         String content ="";
         String descrip = infoPanel.getSequenceDescription();
@@ -175,15 +187,17 @@ public class MenuBar implements ActionListener, MenuListener{
             }
     }
     
-        public void saveOrCancel(String name, String inORout){
+        public void saveOrCancel(String name, String inORout, String descrip,
+                String content){
         int result = JOptionPane.showConfirmDialog(transTool, "File " +name +
                 ".txt already exists save?", "File overwritten",
                 JOptionPane.YES_NO_OPTION);
         
         if(result == JOptionPane.YES_OPTION){
-            toFile(name,inORout);
+            Sequence.toFile(name,inORout,descrip,content);
         }   
     }
+        */
 
     @Override
     public void menuSelected(MenuEvent e) {

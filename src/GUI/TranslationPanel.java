@@ -70,18 +70,12 @@ public class TranslationPanel extends JPanel implements FocusListener{
         if((dnaSequ.getText()).equals("Enter sequence here") == true){
             dnaSequ.setText("");
         }
-        if((functionOut.getText()).equals("Output will print here...") == true){
-            functionOut.setText("");
-        }
     }
 
     @Override
     public void focusLost(FocusEvent e) {
         if((dnaSequ.getText()).equals("") == true){
             dnaSequ.setText("Enter sequence here");
-        }
-        if((functionOut.getText()).equals("") == true){
-            functionOut.setText("Output will print here...");
         }
     }
 }

@@ -1,5 +1,7 @@
 package DNAprogram;
 
+import GUI.InformationPanel;
+import GUI.TranslationTool;
 
 import java.util.*;
 import java.io.*;
@@ -13,6 +15,9 @@ import java.io.*;
 public abstract class Sequence {
     private String description = "";
     private static String content = "";
+    private static InformationPanel infoPanel;
+    private static TranslationTool translationTool;
+    private String descrip;
      
 /**
  * Constructor that takes two Strings to create a new sequence object, will throw
@@ -200,76 +205,101 @@ public abstract class Sequence {
         }
     }
     
-/**
- * method to read the description from a chosen file, following the FASTA format
- * starting with &gt;
- * @param filename requires a string file or full dir string ending in the correct suffix
- *  .txt .doc etc
- * @return description that comes directly from the file line starting with &gt;
- * @throws IOException thrown if a reading error occurs
- */    
-    public static String getDescription(String filename) throws IOException{
-
-            return readFile(0,filename);        
-    }
-
-/**
- * static method to get the content from a chosen file following the FASTA format
- * @param filename requires a string file or full dir string ending in the correct
- * suffix .txt .doc etc
- * @return content that comes directly from the file in FASTA format with no spacing
- * or special characters only valid letters in uppercase
- * @throws IOException thrown if a reading error occurs
- */    
-    public static String getContent(String filename) throws IOException{
- 
-        return readFile(1,filename);
-    }
+    public static void toFile(String filename, String inORout, String descrip,
+            String content){
     
-    private static String readFile(int toReturn, String filename) throws IOException{
-        File inFile = new File(filename);
-        BufferedReader bin = null;
-        String descOutput = "";
-        String output = "";
-        String body = "";
-        
+
+        PrintWriter out = null;
         try{
-            FileReader fin = new FileReader(inFile);
-            bin = new BufferedReader(fin);            
-            String line = bin.readLine();
-            while(line != null){    
-            descOutput += line + "\n";
-            line = bin.readLine();
-            }
             
-            String[]textSplit = descOutput.split("\n");
-            
-            for(int i = 0; i < textSplit.length;i++){
-                if(textSplit[i].startsWith(">")){
-                    output += textSplit[i];
-                }
-                else
-                     body += textSplit[i];
-            }
-            output = output.trim();
-            body = body.trim();
-            body = body.replaceAll("\\s+","");
-                
+            File outFile = new File(filename);
+
+            FileWriter fout = new FileWriter(outFile);
+            BufferedWriter bout = new BufferedWriter(fout);
+            out = new PrintWriter(bout);
+
+            out.println(descrip);
+            out.println(content);
+            out.close();
+
         }
-        catch(IOException e){
-            System.err.println(e.getMessage());
+        catch(IOException ioException){
+            translationTool.tellUser(ioException.getMessage());
         }
         finally{
-            if(bin !=null) {bin.close();}
-        }
-        
-        if (toReturn == 0){
-            return output;
-        }
-        else{
-            return body;
+            if(out !=null){out.close();}
         }
     }
+/**
+* method to read the description from a chosen file, following the FASTA format
+* starting with &gt;
+* @param filename requires a string file or full dir string ending in the correct suffix
+*  .txt .doc etc
+* @return description that comes directly from the file line starting with &gt;
+* @throws IOException thrown if a reading error occurs
+*/    
+public static String getDescription(String filename) throws IOException{
+
+        return readFile(0,filename);        
+}
+
+/**
+* static method to get the content from a chosen file following the FASTA format
+* @param filename requires a string file or full dir string ending in the correct
+* suffix .txt .doc etc
+* @return content that comes directly from the file in FASTA format with no spacing
+* or special characters only valid letters in uppercase
+* @throws IOException thrown if a reading error occurs
+*/    
+public static String getContent(String filename) throws IOException{
+
+    return readFile(1,filename);
+}
+
+private static String readFile(int toReturn, String filename) throws IOException{
+    File inFile = new File(filename);
+    BufferedReader bin = null;
+    String descOutput = "";
+    String output = "";
+    String body = "";
+
+    try{
+        FileReader fin = new FileReader(inFile);
+        bin = new BufferedReader(fin);            
+        String line = bin.readLine();
+        while(line != null){    
+        descOutput += line + "\n";
+        line = bin.readLine();
+        }
+
+        String[]textSplit = descOutput.split("\n");
+
+        for(int i = 0; i < textSplit.length;i++){
+            if(textSplit[i].startsWith(">")){
+                output += textSplit[i];
+            }
+            else
+                 body += textSplit[i];
+        }
+        output = output.trim();
+        body = body.trim();
+        body = body.replaceAll("\\s+","");
+
+    }
+    catch(IOException e){
+        System.err.println(e.getMessage());
+    }
+    finally{
+        if(bin !=null) {bin.close();}
+    }
+
+    if (toReturn == 0){
+        return output;
+    }
+    else{
+        return body;
+    }
+}
     
 /**
  * protected class that takes a String and changes it to a collection, this is currently used for
