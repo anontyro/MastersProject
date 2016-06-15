@@ -13,12 +13,15 @@ import javax.swing.*;
 public class TranslationPanel extends JPanel implements FocusListener{
     
     private JTextArea dnaSequ, functionOut;
+    private static boolean updatedInput = false;
+    private static String buffer = "";
+   private static TranslationTool transTool;
     
-    TranslationPanel(){
+    TranslationPanel(TranslationTool transTool){
+        
+        this.transTool = transTool;
         
         this.setLayout(new GridLayout(1,1));
-        
-
         
         this.add(dnaSequ = new JTextArea("", 15, 20));
         dnaSequ.addFocusListener(this);
@@ -51,7 +54,7 @@ public class TranslationPanel extends JPanel implements FocusListener{
     public String getOutput(){
         return functionOut.getText();
     }
-    
+       
     public void setOutput(String output){
         String funOutput = "";
         funOutput += functionOut.getText() + "\n" +output;
@@ -59,6 +62,7 @@ public class TranslationPanel extends JPanel implements FocusListener{
         functionOut.setText(funOutput);
     }
     public void setInput(String input){
+        input = input.replaceAll("\\n", "");
         dnaSequ.setText(input);
     }
     public void clearOutput(){
@@ -70,6 +74,7 @@ public class TranslationPanel extends JPanel implements FocusListener{
         if((dnaSequ.getText()).equals("Enter sequence here") == true){
             dnaSequ.setText("");
         }
+     
     }
 
     @Override
@@ -77,5 +82,8 @@ public class TranslationPanel extends JPanel implements FocusListener{
         if((dnaSequ.getText()).equals("") == true){
             dnaSequ.setText("Enter sequence here");
         }
+
     }
+
 }
+

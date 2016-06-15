@@ -2,27 +2,27 @@
 package GUI;
 
 import DNAprogram.*;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
 import javax.swing.*;
 import javax.swing.event.MenuEvent;
 import javax.swing.event.MenuListener;
+import java.awt.datatransfer.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author Alex
  */
-public class MenuBar implements ActionListener, MenuListener{
+public class MenuBar implements ActionListener{
     
     private InformationPanel infoPanel;
     private TranslationPanel inOutPanel;
     private TranslationTool transTool;
-    private String sequDesc = "";
-    private String sequBody = "";
     private String output = "";
-    private DNASequence seq;
-    private OpenReadingFrame orfSeq;
     private String userDir = System.getProperty("user.dir") +
             System.getProperty("file.separator");
     private static JFileChooser fc = new JFileChooser();
@@ -45,14 +45,13 @@ public class MenuBar implements ActionListener, MenuListener{
         String descrip = infoPanel.getSequenceDescription();
         
         if(command.equals("New")){
-            sequBody="";
-            sequDesc="";
             inOutPanel.clearOutput();
             inOutPanel.setInput("");
             infoPanel.setSequenceDescription("");
             infoPanel.setStatusMessage("All data cleared");
             saveInput = null;
             saveOutput = null;
+            
         }
         else if(command.equals("Open")){
             inOutPanel.clearOutput();
@@ -75,6 +74,7 @@ public class MenuBar implements ActionListener, MenuListener{
                             infoPanel.setStatusMessage(fc.getSelectedFile()+" file loaded");
 
                             transTool.setTitle("Translation " + fc.getSelectedFile().toString());
+                            
 
                         }
                         catch(IOException ioE){
@@ -124,6 +124,7 @@ public class MenuBar implements ActionListener, MenuListener{
             if (saveInput !=null){
                 Sequence.toFile(saveInput,"input", descrip, inOutPanel.getInput());
                 infoPanel.setStatusMessage("Saved input as: " +saveInput+".txt");
+
                 }
             else{
                 fc.setDialogTitle("Save input as");
@@ -133,6 +134,7 @@ public class MenuBar implements ActionListener, MenuListener{
                             descrip, inOutPanel.getInput());
                     saveInput = fc.getSelectedFile().toString();
                     infoPanel.setStatusMessage("File saved as " +saveInput);
+
                 }
             }    
         }
@@ -143,77 +145,43 @@ public class MenuBar implements ActionListener, MenuListener{
                         descrip, inOutPanel.getInput());
                 saveInput = fc.getSelectedFile().toString();
                 infoPanel.setStatusMessage("File saved as " +saveInput);
+
             }
+        }
+        else if(command.equals("Copy output to clipboard")){
+            String output =  inOutPanel.getOutput();
+            StringSelection stringSelection = new StringSelection(output);
+            Clipboard clipB = Toolkit.getDefaultToolkit().getSystemClipboard();
+            clipB.setContents(stringSelection, null);
+        }
+        else if(command.equals("Copy output to input")){
+            String result = "";
+            String outputMove = inOutPanel.getOutput();
+            if(!outputMove.equals("")){
+                outputMove = outputMove.substring(outputMove.lastIndexOf("\n"));
+                outputMove = outputMove.replaceAll("([^GALMFWKSNDPVICYHRTQE*])?", "");
+            }
+            StringSelection stringSelection = new StringSelection(outputMove);
+            Clipboard clipB = Toolkit.getDefaultToolkit().getSystemClipboard();
+            clipB.setContents(stringSelection, null);
+            
+            Transferable contents = clipB.getContents(null);
+            try {
+                result = (String)contents.getTransferData(DataFlavor.stringFlavor);
+            } 
+            catch (UnsupportedFlavorException | IOException ex) {
+                infoPanel.setStatusMessage(ex.getMessage());
+            }
+            finally{
+                inOutPanel.setInput(result);
+            }
+            
         }
         else{
             transTool.quitOrCancel();
         }
     }
-    
-    /*
-    public void toFile(String filename, String inORout){
-        String content ="";
-        String descrip = infoPanel.getSequenceDescription();
-        
-            PrintWriter out = null;
-            try{
-                if(inORout.equals("output")){
-                    content = inOutPanel.getOutput();
 
-                }
-                else if(inORout.equals("input")){
-                   content = inOutPanel.getInput();
-                }
-                else{
-                    transTool.tellUser("Error could not find correct inORout command");
-                }
-                File outFile = new File(filename);
-                
-                FileWriter fout = new FileWriter(outFile);
-                BufferedWriter bout = new BufferedWriter(fout);
-                out = new PrintWriter(bout);
-                
-                out.println(descrip);
-                out.println(content);
-                out.close();
-                
-                transTool.tellUser("Saved " +descrip + " to " +filename);
-                infoPanel.setStatusMessage("File saved as " +filename);
-                
-            }
-            catch(IOException ioException){
-                transTool.tellUser(ioException.getMessage());
-            }
-            finally{
-                if(out !=null){out.close();}
-            }
-    }
-    
-        public void saveOrCancel(String name, String inORout, String descrip,
-                String content){
-        int result = JOptionPane.showConfirmDialog(transTool, "File " +name +
-                ".txt already exists save?", "File overwritten",
-                JOptionPane.YES_NO_OPTION);
-        
-        if(result == JOptionPane.YES_OPTION){
-            Sequence.toFile(name,inORout,descrip,content);
-        }   
-    }
-        */
 
-    @Override
-    public void menuSelected(MenuEvent e) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void menuDeselected(MenuEvent e) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void menuCanceled(MenuEvent e) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
    
 }

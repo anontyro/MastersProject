@@ -6,7 +6,6 @@ import javax.swing.*;
 import DNAprogram.*;
 import java.io.*;
 
-
 /**
  *
  * @author Alex
@@ -16,10 +15,10 @@ public class TranslationTool extends QuitableJFrame{
      //constructs the InformationPanel object for use
     private InformationPanel infoPanel = new InformationPanel();
         // creates the middle panel for input and output
-    private TranslationPanel inOutPanel = new TranslationPanel();
+    private TranslationPanel inOutPanel = new TranslationPanel(this);
     
     TranslationTool(){
-        super("Translation", 500, 500);
+        super("Translation", 1000, 800);
         
         this.setLocationRelativeTo(null);
         
@@ -62,10 +61,15 @@ public class TranslationTool extends QuitableJFrame{
         JMenuItem saveasInItem = new JMenuItem("Save input as", new ImageIcon("src\\GUI\\images\\save.png"));
         JMenuItem quitItem = new JMenuItem("Quit", new ImageIcon("src\\GUI\\images\\exit.png"));
         
+        //create a new save menu
+        JMenu saveMenu = new JMenu("Save...");
+        
         //create new menu under "Edit"
         JMenu editMenu = new JMenu("Edit");
+        
         //content of "edit menu
         JMenuItem copyItem = new JMenuItem("Copy output to clipboard");
+        JMenuItem outTOinItem = new JMenuItem("Copy output to input");
         
         //build filemenu
         fileMenu.add(newItem);
@@ -73,30 +77,43 @@ public class TranslationTool extends QuitableJFrame{
        
         fileMenu.add(openItem);
         openItem.addActionListener(menu);
+        
+        //adds the save submenu using separators to make it clear it is appart
+        fileMenu.addSeparator();
+        fileMenu.add(saveMenu);
+        fileMenu.addSeparator();
        
-        fileMenu.add(saveItem);
+        //start of save menu items
+        saveMenu.add(saveItem);
         saveItem.addActionListener(menu);
        
-        fileMenu.add(saveasItem);
+        saveMenu.add(saveasItem);
         saveasItem.addActionListener(menu);
         
-        fileMenu.add(saveInItem);
+        saveMenu.add(saveInItem);
         saveInItem.addActionListener(menu);
         
-        fileMenu.add(saveasInItem);
+        saveMenu.add(saveasInItem);
         saveasInItem.addActionListener(menu);
+        
+        //end of save menu items
         
         fileMenu.add(quitItem);
         quitItem.addActionListener(menu);
+        
         
         theBar.add(fileMenu);
         
         //build edit menu
         editMenu.add(copyItem);
-        editMenu.addActionListener(menu);
+        copyItem.addActionListener(menu);
        
+        editMenu.add(outTOinItem);
+        outTOinItem.addActionListener(menu);
+        
         theBar.add(editMenu);
         
+        //setup the menu
         this.setJMenuBar(theBar);
     }
        

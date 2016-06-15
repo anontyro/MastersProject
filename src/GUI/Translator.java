@@ -126,7 +126,7 @@ public class Translator implements ActionListener{
                 sequBody ="";
                 sequDesc = "";
                 translatePan.clearOutput();
-                
+                infoPanel.setStatusMessage("Output cleared");
             }
    
         }
