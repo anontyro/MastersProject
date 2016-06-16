@@ -1,4 +1,3 @@
-
 package GUI;
 
 import DNAprogram.*;
@@ -7,15 +6,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
 import javax.swing.*;
-import javax.swing.event.MenuEvent;
-import javax.swing.event.MenuListener;
 import java.awt.datatransfer.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
- *
- * @author Alex
+ * 
+ * Menubar implements ActionListner the class provides the main functionality for the
+ * menubar created in TranslationTool class. The main role of this class is to create
+ * actions for the menubar
  */
 public class MenuBar implements ActionListener{
     
@@ -29,6 +26,12 @@ public class MenuBar implements ActionListener{
     private static String saveInput = null;
     private static String saveOutput = null;
 
+/**
+ * Constructor that will take three parameters and create a MenuBar object
+ * @param transTool TranslationTool object
+ * @param infoPanel InformationPanel object
+ * @param translatePan TranslationPanel object
+ */    
     public MenuBar(TranslationTool transTool, InformationPanel infoPanel,
             TranslationPanel translatePan){
         
@@ -39,6 +42,12 @@ public class MenuBar implements ActionListener{
         fc.setCurrentDirectory(fd);   
     }
 
+/**
+ * actionPerformed Method that takes ActionEvent as the parameter and relies on
+ * a main if else control statement to preform the actions of the menuBar with the 
+ * last else exiting the program
+ * @param e 
+ */    
     @Override
     public void actionPerformed(ActionEvent e) {
         String command = e.getActionCommand();
@@ -149,8 +158,8 @@ public class MenuBar implements ActionListener{
             }
         }
         else if(command.equals("Copy output to clipboard")){
-            String output =  inOutPanel.getOutput();
-            StringSelection stringSelection = new StringSelection(output);
+            String outputCopy =  inOutPanel.getOutput();
+            StringSelection stringSelection = new StringSelection(outputCopy);
             Clipboard clipB = Toolkit.getDefaultToolkit().getSystemClipboard();
             clipB.setContents(stringSelection, null);
         }

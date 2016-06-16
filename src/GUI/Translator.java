@@ -9,7 +9,8 @@ import java.util.*;
 
 /**
  *
- * @author Alex
+ * Translator implements ActionListener and is the main class that preforms the
+ * actions of the ControlPanel class 
  */
 public class Translator implements ActionListener{
     
@@ -20,7 +21,14 @@ public class Translator implements ActionListener{
     private String sequBody = "";
     private DNASequence seq;
     private OpenReadingFrame orfSeq;
-    
+ 
+/**
+ * Constructor that creates a Translator object which takes three parameters 
+ * and creates the object to listen for button inputs
+ * @param transTool
+ * @param infoPanel
+ * @param translatePan 
+ */    
     public Translator(TranslationTool transTool, InformationPanel infoPanel,
             TranslationPanel translatePan){
         
@@ -30,6 +38,12 @@ public class Translator implements ActionListener{
         
     }
 
+/**
+ * actionPerformed method that takes the ActionEvent event currently form the
+ * ControlPanel class to assign operations to each button. Buttons are ran by
+ * a central control statement of if else statements ending with the exit option
+ * @param event ActionEven 
+ */    
     @Override
     public void actionPerformed(ActionEvent event) {
         
@@ -118,8 +132,7 @@ public class Translator implements ActionListener{
                     translatePan.setOutput("Open reading frames for: "
                             + orfSeq.getDescription()
                             + "\n"+ output);  
-                    }
-                
+                    }                
                 }
             }
             else{
@@ -127,12 +140,10 @@ public class Translator implements ActionListener{
                 sequDesc = "";
                 translatePan.clearOutput();
                 infoPanel.setStatusMessage("Output cleared");
-            }
-   
+            }  
         }
         catch(Exception ex){
            transTool.tellUser(ex.getMessage());
-        }
-                
+        }                
     }    
 }

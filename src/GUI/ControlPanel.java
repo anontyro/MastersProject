@@ -5,12 +5,18 @@ import java.awt.*;
 
 
 /**
- *
- * @author Alex
+ * 
+ * ControlPanel extends JPanel class holds the buttons that make up the South
+ * region of the TranslationTool frame
  */
 public class ControlPanel extends JPanel{
-    
-    ControlPanel(Translator trans){
+
+/**
+ * Constructor that takes a Translator object which is its ActionListerner class
+ * for the buttons
+ * @param trans object
+ */    
+    public ControlPanel(Translator trans){
         
         JButton revcomButton, simpletransButton, sixFrameButton, orfButton, clear;
         

@@ -27,7 +27,7 @@ public abstract class Sequence {
  * a &gt;
  * @param content the full content string to be made into an object
  */    
-    Sequence(String description, String content){
+    public Sequence(String description, String content){
         this.description = description;
         this.content = content.toUpperCase();
         try{
@@ -44,7 +44,7 @@ public abstract class Sequence {
  * @param filename full filename of the file including dir if in a different directory
  * with the extension eg .txt .doc etc
  */    
-    Sequence(String filename){
+    public Sequence(String filename){
         try{
             content = getContent(filename);
             description = getDescription(filename);
@@ -128,7 +128,13 @@ public abstract class Sequence {
         }  
         return true;
     }
-    
+
+/**
+ * 
+ * @param valid
+ * @param sequBody
+ * @return 
+ */    
         public boolean validateSeq(String valid, String sequBody){
         sequBody = sequBody.toUpperCase();
         ArrayList<String>validLetters;
@@ -204,7 +210,14 @@ public abstract class Sequence {
             if(out !=null){out.close();}
         }
     }
-    
+ 
+/**
+ * 
+ * @param filename
+ * @param inORout
+ * @param descrip
+ * @param content 
+ */    
     public static void toFile(String filename, String inORout, String descrip,
             String content){
     

@@ -8,7 +8,8 @@ import java.io.*;
 
 /**
  *
- * @author Alex
+ * TranslationTool extends QuitableJFrame and hosts the core panels for the GUI
+ * will setup and run the window
  */
 public class TranslationTool extends QuitableJFrame{
     
@@ -16,8 +17,13 @@ public class TranslationTool extends QuitableJFrame{
     private InformationPanel infoPanel = new InformationPanel();
         // creates the middle panel for input and output
     private TranslationPanel inOutPanel = new TranslationPanel(this);
-    
-    TranslationTool(){
+
+/**
+ * Creates a TranslationTool no argument constructor setting up a window 1000 x 800
+ * sets the window centred in a BorderLayout, adds everything to the window and
+ * creates a menubar at the top
+ */    
+    public TranslationTool(){
         super("Translation", 1000, 800);
         
         this.setLocationRelativeTo(null);
@@ -45,7 +51,8 @@ public class TranslationTool extends QuitableJFrame{
         this.setVisible(true);
 
     }
-    
+    // Menubar creation method that takes a MenuBar object as its parameter
+    //MenuBar class stores all of the actions for the menubar
     private void setUpMenubar(MenuBar menu){
 
         //new menubar
@@ -116,7 +123,7 @@ public class TranslationTool extends QuitableJFrame{
         //setup the menu
         this.setJMenuBar(theBar);
     }
-       
+    //initiates the main frame and sets up everything according to the constructor
     public static void main(String[] args){
         TranslationTool theFrame = new TranslationTool();
 
