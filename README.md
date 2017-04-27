@@ -1,6 +1,7 @@
 # Java Masters Project
 Java SE and Swing
 ---
+#### Development - Ended
 The complete code for my Java post-grad course completed in 2016. The project was split into two sections, the raw Java code and the
 Java GUI implementation in Swing. 
 
